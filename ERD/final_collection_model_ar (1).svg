@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1100" viewBox="0 0 1800 1100">
+<style>
+text { font-family: "DejaVu Sans", "Noto Sans Arabic", Arial, sans-serif; }
+</style>
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+<polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+</marker>
+</defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="900" y="42" text-anchor="middle" font-size="28" font-weight="700" fill="#0f172a">الموديل النهائي المقترح بعد إضافة ملفات الأقساط والوحدات</text>
+<text x="900" y="72" text-anchor="middle" font-size="16" fill="#475569">مناسب لـ Power BI أو التطبيق الداخلي — مع دعم العقود متعددة الوحدات وحالة المخزون</text>
+
+<rect x="1370" y="120" width="340" height="170" rx="14" ry="14" fill="#dbeafe" stroke="#334155" stroke-width="2"/>
+<text x="1540.0" y="148" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Dim_المشاريع</text>
+<text x="1696" y="174" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح المشروع</text>
+<text x="1696" y="196" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">اسم المشروع</text>
+<text x="1696" y="218" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">باركو / سنترو / كازا</text>
+
+<rect x="1330" y="350" width="380" height="260" rx="14" ry="14" fill="#dcfce7" stroke="#334155" stroke-width="2"/>
+<text x="1520.0" y="378" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Dim_الوحدات</text>
+<text x="1696" y="404" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح الوحدة</text>
+<text x="1696" y="426" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">كود الوحدة الكامل</text>
+<text x="1696" y="448" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المشروع</text>
+<text x="1696" y="470" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">الدور</text>
+<text x="1696" y="492" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مساحة الوحدة</text>
+<text x="1696" y="514" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المساحة الخارجية</text>
+<text x="1696" y="536" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">سعر القائمة</text>
+<text x="1696" y="558" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">سعر البيع التعاقدي</text>
+<text x="1696" y="580" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">حالة الوحدة: مباعة / متاحة</text>
+
+<rect x="1350" y="700" width="360" height="170" rx="14" ry="14" fill="#fef3c7" stroke="#334155" stroke-width="2"/>
+<text x="1530.0" y="728" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Dim_العملاء</text>
+<text x="1696" y="754" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح العميل</text>
+<text x="1696" y="776" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">اسم العميل</text>
+<text x="1696" y="798" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">بيانات اتصال تضاف لاحقًا</text>
+
+<rect x="830" y="220" width="360" height="210" rx="14" ry="14" fill="#ede9fe" stroke="#334155" stroke-width="2"/>
+<text x="1010.0" y="248" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Fact_العقود</text>
+<text x="1176" y="274" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح العقد</text>
+<text x="1176" y="296" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح العميل</text>
+<text x="1176" y="318" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح المشروع</text>
+<text x="1176" y="340" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">اسم العميل من ملف الأقساط</text>
+<text x="1176" y="362" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">ملاحظات العقد</text>
+<text x="1176" y="384" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">صف واحد لكل عقد</text>
+
+<rect x="820" y="500" width="380" height="190" rx="14" ry="14" fill="#fce7f3" stroke="#334155" stroke-width="2"/>
+<text x="1010.0" y="528" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Bridge_العقد_الوحدة</text>
+<text x="1186" y="554" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح العقد</text>
+<text x="1186" y="576" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح الوحدة</text>
+<text x="1186" y="598" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">يحل مشكلة العقود متعددة الوحدات</text>
+<text x="1186" y="620" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مثل: B28+B29 أو T1+T2+T3</text>
+
+<rect x="340" y="170" width="390" height="330" rx="14" ry="14" fill="#fecaca" stroke="#334155" stroke-width="2"/>
+<text x="535.0" y="198" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Fact_الأقساط</text>
+<text x="716" y="224" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح القسط = كود القسط</text>
+<text x="716" y="246" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح العقد</text>
+<text x="716" y="268" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">نوع القسط</text>
+<text x="716" y="290" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">تاريخ القسط</text>
+<text x="716" y="312" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">قيمة القسط</text>
+<text x="716" y="334" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المحصل</text>
+<text x="716" y="356" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المتبقي</text>
+<text x="716" y="378" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">الورقة التجارية</text>
+<text x="716" y="400" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">حالة التحصيل المشتقة</text>
+<text x="716" y="422" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">أيام التأخير</text>
+<text x="716" y="444" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">غرامة محسوبة أو مستوردة</text>
+
+<rect x="300" y="590" width="430" height="230" rx="14" ry="14" fill="#fae8ff" stroke="#334155" stroke-width="2"/>
+<text x="515.0" y="618" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Fact_المتابعات</text>
+<text x="716" y="644" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">رقم المتابعة</text>
+<text x="716" y="666" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح العقد أو العميل</text>
+<text x="716" y="688" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">تاريخ المتابعة</text>
+<text x="716" y="710" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">نوع التواصل</text>
+<text x="716" y="732" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">ملاحظة التحصيل</text>
+<text x="716" y="754" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">وعد السداد</text>
+<text x="716" y="776" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">تاريخ الوعد</text>
+<text x="716" y="798" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">الإجراء التالي</text>
+<text x="716" y="820" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مسؤول التحصيل</text>
+
+<rect x="840" y="780" width="350" height="170" rx="14" ry="14" fill="#cffafe" stroke="#334155" stroke-width="2"/>
+<text x="1015.0" y="808" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Dim_التاريخ</text>
+<text x="1176" y="834" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">مفتاح التاريخ</text>
+<text x="1176" y="856" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">اليوم / الشهر / السنة / الربع / الأسبوع</text>
+
+<rect x="70" y="260" width="210" height="170" rx="14" ry="14" fill="#fde68a" stroke="#334155" stroke-width="2"/>
+<text x="175.0" y="288" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Fact_التحصيلات</text>
+<text x="266" y="314" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">اختياري لاحقًا</text>
+<text x="266" y="336" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">من سندات القبض</text>
+<text x="266" y="358" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">لجمعنا كام فعليًا حسب التاريخ</text>
+
+
+    <line x1="1370" y1="205" x2="1190" y2="320" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1280.0" y="254.5" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="1330" y1="470" x2="1200" y2="590" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1265.0" y="522.0" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="1350" y1="785" x2="1190" y2="340" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1270.0" y="554.5" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="830" y1="330" x2="730" y2="330" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="780.0" y="322.0" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="1010" y1="430" x2="1010" y2="500" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1010.0" y="457.0" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="1330" y1="500" x2="1200" y2="595" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1265.0" y="539.5" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="1010" y1="690" x2="1010" y2="780" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1010.0" y="727.0" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="820" y1="840" x2="730" y2="710" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="775.0" y="767.0" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد (تاريخ المتابعة)</text>
+    
+
+    <line x1="840" y1="840" x2="535" y2="500" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="687.5" y="662.0" text-anchor="middle" font-size="13" fill="#334155">1 : متعدد (تاريخ القسط)</text>
+    
+
+    <line x1="280" y1="345" x2="340" y2="345" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="310.0" y="337.0" text-anchor="middle" font-size="13" fill="#334155">اختياري لاحقًا</text>
+    
+
+<text x="900" y="1010" text-anchor="middle" font-size="16" fill="#475569">مصدر الوحدات = ملفي الوحدات المباعة والمتاحة. مصدر العقود والأقساط = ملف إجمالي الأقساط. المتابعات تُدار داخليًا.</text>
+<text x="900" y="1040" text-anchor="middle" font-size="15" fill="#475569">أهم إضافة جديدة: Bridge_العقد_الوحدة ضروري لأن بعض العقود في ملف الأقساط تخص أكثر من وحدة.</text>
+</svg>

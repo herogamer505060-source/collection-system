@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="900" viewBox="0 0 1800 900">
+<style>
+text { font-family: "DejaVu Sans", "Noto Sans Arabic", Arial, sans-serif; }
+</style>
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+<polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+</marker>
+</defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="900" y="45" text-anchor="middle" font-size="28" font-weight="700" fill="#0f172a">تدفق البيانات المقترح للمرحلة الأولى</text>
+<text x="900" y="75" text-anchor="middle" font-size="16" fill="#475569">كيف تتحول ملفات الإكسيل الحالية إلى نموذج تقارير عربي للإدارة والتحصيل</text>
+
+<rect x="1360" y="180" width="330" height="160" rx="14" ry="14" fill="#fee2e2" stroke="#334155" stroke-width="2"/>
+<text x="1525.0" y="208" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">ملف إجمالي الأقساط</text>
+<text x="1676" y="234" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">العقد / العميل / المشروع</text>
+<text x="1676" y="256" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">القسط / المحصل / المتبقي</text>
+<text x="1676" y="278" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">تاريخ القسط / نوع القسط</text>
+
+<rect x="1360" y="410" width="330" height="150" rx="14" ry="14" fill="#dcfce7" stroke="#334155" stroke-width="2"/>
+<text x="1525.0" y="438" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">ملف الوحدات المباعة</text>
+<text x="1676" y="464" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">كود الوحدة</text>
+<text x="1676" y="486" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">سعر التعاقد</text>
+<text x="1676" y="508" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المساحات</text>
+
+<rect x="1360" y="620" width="330" height="150" rx="14" ry="14" fill="#dcfce7" stroke="#334155" stroke-width="2"/>
+<text x="1525.0" y="648" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">ملف الوحدات المتاحة</text>
+<text x="1676" y="674" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">كود الوحدة</text>
+<text x="1676" y="696" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">سعر القائمة</text>
+<text x="1676" y="718" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المساحات</text>
+
+<rect x="900" y="260" width="330" height="360" rx="14" ry="14" fill="#e0f2fe" stroke="#334155" stroke-width="2"/>
+<text x="1065.0" y="288" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">طبقة التنظيف والتحويل</text>
+<text x="1216" y="314" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">تنظيف أسماء الأعمدة</text>
+<text x="1216" y="336" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">استبعاد الصفوف غير الصالحة</text>
+<text x="1216" y="358" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">اشتقاق حالة التحصيل</text>
+<text x="1216" y="380" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">بناء مفتاح العقد</text>
+<text x="1216" y="402" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">فصل العقود متعددة الوحدات</text>
+<text x="1216" y="424" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">توحيد أكواد الوحدات</text>
+<text x="1216" y="446" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">دمج المباعة + المتاحة</text>
+<text x="1216" y="468" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">حساب أيام التأخير والغرامات</text>
+
+<rect x="420" y="220" width="330" height="220" rx="14" ry="14" fill="#ede9fe" stroke="#334155" stroke-width="2"/>
+<text x="585.0" y="248" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">نموذج البيانات</text>
+<text x="736" y="274" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المشاريع</text>
+<text x="736" y="296" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">الوحدات</text>
+<text x="736" y="318" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">العملاء</text>
+<text x="736" y="340" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">العقود</text>
+<text x="736" y="362" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">العقد-الوحدة</text>
+<text x="736" y="384" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">الأقساط</text>
+<text x="736" y="406" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المتابعات</text>
+<text x="736" y="428" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">التاريخ</text>
+
+<rect x="420" y="540" width="330" height="200" rx="14" ry="14" fill="#fef3c7" stroke="#334155" stroke-width="2"/>
+<text x="585.0" y="568" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Power BI / التطبيق</text>
+<text x="736" y="594" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">لوحة الإدارة</text>
+<text x="736" y="616" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">تقرير التحصيل</text>
+<text x="736" y="638" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">تقرير المتأخرات</text>
+<text x="736" y="660" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">موقف كل عميل</text>
+<text x="736" y="682" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المخزون المباع والمتاح</text>
+
+<rect x="70" y="340" width="250" height="220" rx="14" ry="14" fill="#fae8ff" stroke="#334155" stroke-width="2"/>
+<text x="195.0" y="368" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">المستخدم النهائي</text>
+<text x="306" y="394" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">الإدارة</text>
+<text x="306" y="416" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">التحصيل</text>
+<text x="306" y="438" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">المبيعات</text>
+<text x="306" y="460" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="14" fill="#1e293b">خدمة العملاء</text>
+
+<line x1="1360" y1="260" x2="1230" y2="360" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+<line x1="1360" y1="485" x2="1230" y2="440" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+<line x1="1360" y1="695" x2="1230" y2="520" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+<line x1="900" y1="440" x2="750" y2="330" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+<line x1="900" y1="520" x2="750" y2="620" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+<line x1="420" y1="640" x2="320" y2="450" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+<text x="900" y="830" text-anchor="middle" font-size="16" fill="#475569">أفضل نتيجة للمرحلة الأولى: ملف إكسيل مُنظف + موديل Power BI عربي + شاشة متابعة ملاحظات منفصلة.</text>
+</svg>

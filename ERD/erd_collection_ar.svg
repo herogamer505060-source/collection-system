@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<style>
+    text { font-family: "DejaVu Sans", "Noto Sans Arabic", Arial, sans-serif; }
+</style>
+<defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+    </marker>
+</defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="800" y="45" text-anchor="middle" font-size="28" font-weight="700" fill="#0f172a">مخطط الجداول المقترح من الملف الحالي</text>
+<text x="800" y="75" text-anchor="middle" font-size="16" fill="#475569">مناسب للتطبيق أو لمرحلة Power BI الأولى — كل الأسماء بالعربي</text>
+
+<rect x="1090" y="130" width="360" height="180" rx="14" ry="14" fill="#e0f2fe" stroke="#334155" stroke-width="2"/>
+<text x="1270.0" y="158" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">جدول المشاريع</text>
+<text x="1434" y="185" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح المشروع</text>
+<text x="1434" y="209" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">اسم المشروع: باركو / سنترو / كازا</text>
+<text x="1434" y="233" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">ملاحظات إدارية اختيارية</text>
+
+<rect x="1090" y="390" width="360" height="220" rx="14" ry="14" fill="#dcfce7" stroke="#334155" stroke-width="2"/>
+<text x="1270.0" y="418" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">جدول الوحدات</text>
+<text x="1434" y="445" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح الوحدة = المشروع + الوحدة</text>
+<text x="1434" y="469" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">اسم الوحدة السكنية</text>
+<text x="1434" y="493" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مساحة الوحدة</text>
+<text x="1434" y="517" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مساحة الحديقة</text>
+<text x="1434" y="541" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">تاريخ التسليم</text>
+<text x="1434" y="565" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">التاريخ الفعلي</text>
+
+<rect x="1090" y="690" width="360" height="180" rx="14" ry="14" fill="#fef3c7" stroke="#334155" stroke-width="2"/>
+<text x="1270.0" y="718" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">جدول العملاء</text>
+<text x="1434" y="745" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح العميل</text>
+<text x="1434" y="769" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">اسم المشتري</text>
+<text x="1434" y="793" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">بيانات الاتصال (تضاف لاحقًا)</text>
+<text x="1434" y="817" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">تصنيف العميل اختياري</text>
+
+<rect x="620" y="240" width="380" height="260" rx="14" ry="14" fill="#ede9fe" stroke="#334155" stroke-width="2"/>
+<text x="810.0" y="268" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">جدول العقود</text>
+<text x="984" y="295" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح العقد = الكود</text>
+<text x="984" y="319" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح العميل</text>
+<text x="984" y="343" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح الوحدة</text>
+<text x="984" y="367" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح المشروع</text>
+<text x="984" y="391" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">ملاحظات العقد</text>
+<text x="984" y="415" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">صف واحد لكل عقد</text>
+
+<rect x="120" y="180" width="400" height="360" rx="14" ry="14" fill="#fee2e2" stroke="#334155" stroke-width="2"/>
+<text x="320.0" y="208" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">جدول الأقساط / الاستحقاقات</text>
+<text x="504" y="235" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح القسط = كود القسط</text>
+<text x="504" y="259" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح العقد</text>
+<text x="504" y="283" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">نوع القسط</text>
+<text x="504" y="307" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">تاريخ الاستحقاق</text>
+<text x="504" y="331" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">القيمة</text>
+<text x="504" y="355" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">القيمة المدفوعة</text>
+<text x="504" y="379" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">المبلغ المتبقي</text>
+<text x="504" y="403" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">حالة الدفع</text>
+<text x="504" y="427" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">تاريخ الدفع</text>
+<text x="504" y="451" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">الورقة التجارية</text>
+<text x="504" y="475" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">أوراق القبض المحصلة</text>
+
+<rect x="120" y="630" width="400" height="250" rx="14" ry="14" fill="#fae8ff" stroke="#334155" stroke-width="2"/>
+<text x="320.0" y="658" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">جدول المتابعات</text>
+<text x="504" y="685" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح المتابعة</text>
+<text x="504" y="709" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح العقد أو العميل</text>
+<text x="504" y="733" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">تاريخ المتابعة</text>
+<text x="504" y="757" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">نوع التواصل</text>
+<text x="504" y="781" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">ملاحظة المتابعة</text>
+<text x="504" y="805" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">وعد السداد</text>
+<text x="504" y="829" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">تاريخ الوعد</text>
+<text x="504" y="853" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">الإجراء التالي</text>
+<text x="504" y="877" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">اسم مسؤول التحصيل</text>
+
+<rect x="620" y="630" width="380" height="220" rx="14" ry="14" fill="#cffafe" stroke="#334155" stroke-width="2"/>
+<text x="810.0" y="658" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">جدول التاريخ</text>
+<text x="984" y="685" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">مفتاح التاريخ</text>
+<text x="984" y="709" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">التاريخ</text>
+<text x="984" y="733" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">السنة</text>
+<text x="984" y="757" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">الشهر</text>
+<text x="984" y="781" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">اسم الشهر</text>
+<text x="984" y="805" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">الربع</text>
+<text x="984" y="829" text-anchor="end" direction="rtl" unicode-bidi="plaintext" font-size="15" fill="#1e293b">الأسبوع</text>
+
+
+    <line x1="1090" y1="220" x2="1000" y2="320" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1045.0" y="262.0" text-anchor="middle" font-size="14" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="1090" y1="780" x2="1000" y2="420" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1045.0" y="592.0" text-anchor="middle" font-size="14" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="1090" y1="500" x2="1000" y2="380" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="1045.0" y="432.0" text-anchor="middle" font-size="14" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="620" y1="370" x2="520" y2="360" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="570.0" y="357.0" text-anchor="middle" font-size="14" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="620" y1="720" x2="520" y2="760" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="570.0" y="732.0" text-anchor="middle" font-size="14" fill="#334155">1 : متعدد</text>
+    
+
+    <line x1="620" y1="720" x2="320" y2="540" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="470.0" y="622.0" text-anchor="middle" font-size="14" fill="#334155">1 : متعدد (بدور التاريخ)</text>
+    
+
+    <line x1="620" y1="720" x2="320" y2="630" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="470.0" y="667.0" text-anchor="middle" font-size="14" fill="#334155">1 : متعدد (بدور تاريخ المتابعة)</text>
+    
+
+<text x="800" y="955" text-anchor="middle" font-size="15" fill="#475569">مهم: لا تستخدم اسم الوحدة كمفتاح منفرد، لأن نفس اسم الوحدة يظهر في أكثر من مشروع.</text>
+</svg>
