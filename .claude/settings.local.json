@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pwsh -NoProfile -File \".specify/scripts/powershell/create-new-feature.ps1\" \"Build the MVP of an internal Arabic-first RTL real-estate collections management application.\" -Json -ShortName \"collections-mvp\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/create-new-feature.ps1\" \"Build the MVP of an internal Arabic-first RTL real-estate collections management application.\" -Json -ShortName \"collections-mvp\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json -PathsOnly)",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/setup-plan.ps1\" -Json)",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/update-agent-context.ps1\" -AgentType claude)",
+      "Bash(npx vitest:*)",
+      "Bash(npx supabase:*)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//c/github/collection system/**)",
+      "Bash(done)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "Bash(curl -s -X POST \"https://api.supabase.com/v1/projects/quylcgozipvhkztnxver/database/query\" -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1eWxjZ296aXB2aGt6dG54dmVyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDMwNjM1NiwiZXhwIjoyMDg5ODgyMzU2fQ.jWPposmEpWQVklyV6PRfOmiemY83p8RCIQu8SBXgUzI\" -H \"Content-Type: application/json\" -d \"{\"\"query\"\": \"\"SELECT 1 as test\"\"}\")",
+      "mcp__plugin_supabase_supabase__list_migrations",
+      "mcp__plugin_supabase_supabase__apply_migration",
+      "Bash(node scripts/setup-production.mjs bucket)",
+      "Bash(node scripts/setup-production.mjs admin f9a5038c-3149-4e21-b94e-3e191a7a87ec \"مدير النظام\" \"hero.gamer505060@gmail.com\")"
+    ]
+  }
+}

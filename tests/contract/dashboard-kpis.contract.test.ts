@@ -1,0 +1,63 @@
+import { describe, expect, it } from "vitest";
+
+import { getDashboardKpis } from "@/server/queries/dashboard/get-dashboard-kpis";
+import { getRecentFollowUps } from "@/server/queries/dashboard/get-recent-follow-ups";
+import { getTopOverdueCustomers } from "@/server/queries/dashboard/get-top-overdue-customers";
+
+import { createReadModelFixture } from "../helpers/read-model-fixture";
+import { createRoleAssignment, createSessionUser } from "../helpers/session-user";
+
+describe("dashboard KPI query contract", () => {
+  it("returns the documented dashboard payload shape", async () => {
+    const fixture = createReadModelFixture();
+    const sessionUser = createSessionUser({ roles: [createRoleAssignment("manager")] });
+
+    const result = await getDashboardKpis(
+      { sessionUser },
+      {
+        getLastImportAt: async () => "2026-03-22T16:00:00Z",
+        getRecentFollowUps: (input) => getRecentFollowUps(input, { loadReadModelData: async () => fixture }),
+        getTopOverdueCustomers: (input) =>
+          getTopOverdueCustomers(input, { loadReadModelData: async () => fixture }),
+        loadReadModelData: async () => fixture,
+      },
+    );
+
+    expect(result).toEqual({
+      collectionPercentage: 50,
+      customersOverdue: 1,
+      customersPaid: 1,
+      customersUnpaid: 0,
+      lastImportAt: "2026-03-22T16:00:00Z",
+      openPromises: 1,
+      recentFollowUps: [
+        {
+          customerName: "أحمد علي",
+          followUpDate: "2026-03-20",
+          id: "follow-up-1",
+          summary: "تم التواصل بخصوص قسط متأخر",
+        },
+        {
+          customerName: "أحمد علي",
+          followUpDate: "2026-03-10",
+          id: "follow-up-2",
+          summary: "متابعة على عقد آخر",
+        },
+      ],
+      topOverdueCustomers: [
+        {
+          customerId: "customer-ahmed",
+          customerName: "أحمد علي",
+          lastFollowUpDate: "2026-03-20",
+          projectName: "إل باركو",
+          totalOverdue: 1000,
+        },
+      ],
+      totalCollected: 1500,
+      totalDue: 3000,
+      totalOutstanding: 1500,
+      totalOverdue: 1000,
+      totalPenalties: 25,
+    });
+  });
+});

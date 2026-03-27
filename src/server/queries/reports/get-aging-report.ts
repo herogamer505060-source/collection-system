@@ -1,0 +1,73 @@
+import type { ReportQueryInput, PaginatedReportResult } from "./report-helpers";
+import {
+  AGING_BUCKET_LABELS,
+  AGING_BUCKET_ORDER,
+  buildPaginatedReportResult,
+  getProjectName,
+  getReportContext,
+} from "./report-helpers";
+
+export type AgingReportItem = {
+  amountDue: number;
+  amountOutstanding: number;
+  contractCode: string | null;
+  customerName: string;
+  delayBucket: string;
+  delayDays: number;
+  projectName: string;
+};
+
+export type AgingReportSummaryItem = {
+  amount: number;
+  bucket: string;
+  bucketLabel: string;
+  count: number;
+};
+
+export type AgingReportResult = PaginatedReportResult<AgingReportItem> & {
+  summary: AgingReportSummaryItem[];
+};
+
+export async function getAgingReport(input: ReportQueryInput): Promise<AgingReportResult> {
+  const context = await getReportContext(input);
+  const summaryMap = new Map<string, AgingReportSummaryItem>();
+  const items = context.visibleInstallments
+    .filter((installment) => installment.amount_outstanding > 0)
+    .map((installment) => {
+      const contract = context.contractById.get(installment.contract_id);
+      const customerName = contract
+        ? context.customerById.get(contract.customer_id)?.customer_name ?? contract.customer_id
+        : "—";
+      const projectName = contract ? getProjectName(contract.project_id, context.projectById) : "—";
+      const bucket = installment.delay_bucket;
+      const summaryItem = summaryMap.get(bucket) ?? {
+        amount: 0,
+        bucket,
+        bucketLabel: AGING_BUCKET_LABELS[bucket] ?? bucket,
+        count: 0,
+      };
+
+      summaryItem.amount += installment.amount_outstanding;
+      summaryItem.count += 1;
+      summaryMap.set(bucket, summaryItem);
+
+      return {
+        amountDue: installment.amount_due,
+        amountOutstanding: installment.amount_outstanding,
+        contractCode: contract?.contract_code ?? null,
+        customerName,
+        delayBucket: AGING_BUCKET_LABELS[bucket] ?? bucket,
+        delayDays: installment.delay_days,
+        projectName,
+      };
+    })
+    .sort((left, right) => right.delayDays - left.delayDays || right.amountOutstanding - left.amountOutstanding);
+  const result = buildPaginatedReportResult(items, input, context.projectOptions, {});
+
+  return {
+    ...result,
+    summary: AGING_BUCKET_ORDER.map((bucket) => summaryMap.get(bucket)).filter(
+      (item): item is AgingReportSummaryItem => Boolean(item),
+    ),
+  };
+}

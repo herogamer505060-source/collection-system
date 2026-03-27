@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 183 73% 24%;
+    --primary-foreground: 0 0% 100%;
+    --primary-container: 183 43% 36%;
+    --on-primary-container: 180 100% 97%;
+
+    --background: 200 14% 98%;
+    --foreground: 195 11% 10%;
+    --surface: 200 14% 98%;
+    --surface-container-low: 210 7% 95%;
+    --surface-container: 210 4% 93%;
+    --surface-container-high: 210 4% 91%;
+    --surface-container-lowest: 0 0% 100%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 195 11% 10%;
+
+    --border: 180 8% 76%;
+    --input: 180 8% 76%;
+    --ring: 183 73% 24%;
+
+    --secondary: 200 16% 36%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 180 4% 91%;
+    --muted-foreground: 180 10% 27%;
+
+    --accent: 180 100% 20%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 74% 42%;
+    --destructive-foreground: 0 0% 100%;
+
+    --outline: 180 5% 45%;
+    --outline-variant: 180 8% 76%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    direction: rtl;
+  }
+
+  body {
+    @apply min-h-screen bg-[#f8f9fa] text-[#191c1d];
+    font-feature-settings: "kern" 1;
+  }
+
+  ::selection {
+    background: rgba(15, 102, 106, 0.18);
+  }
+
+  .glass-nav {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, #0f666a, #337f83);
+  }
+
+  .ghost-border {
+    border: 1px solid rgba(188, 201, 200, 0.15);
+  }
+
+  .ambient-shadow {
+    box-shadow: 0 8px 24px rgba(25, 28, 29, 0.06);
+  }
+}
+
+@media print {
+  nav,
+  [data-sidebar],
+  [data-topbar],
+  .no-print,
+  button,
+  .filter-bar form {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  table {
+    font-size: 10pt !important;
+    width: 100% !important;
+  }
+
+  th,
+  td {
+    padding: 4px 8px !important;
+    border: 1px solid #ccc !important;
+  }
+
+  html {
+    direction: rtl !important;
+  }
+
+  @page {
+    margin: 1cm;
+    size: A4 landscape;
+  }
+}

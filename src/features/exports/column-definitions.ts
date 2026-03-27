@@ -1,0 +1,153 @@
+export type ExportColumn = {
+  header: string;
+  key: string;
+  width?: number;
+};
+
+export const EXPORT_TYPES = [
+  "customers",
+  "contracts",
+  "installments",
+  "follow-ups",
+  "units",
+  "aging",
+  "who-paid",
+  "overdue",
+  "penalties",
+  "project-status",
+  "collection-notes",
+  "promises",
+  "no-follow-up",
+] as const;
+
+export type ExportType = (typeof EXPORT_TYPES)[number];
+
+export const EXPORT_COLUMNS: Record<ExportType, ExportColumn[]> = {
+  customers: [
+    { header: "اسم العميل", key: "customerName", width: 30 },
+    { header: "رقم الجوال", key: "mobile", width: 18 },
+    { header: "البريد الإلكتروني", key: "email", width: 28 },
+    { header: "المتبقي", key: "outstanding", width: 18 },
+    { header: "الحالة", key: "status", width: 18 },
+  ],
+  contracts: [
+    { header: "كود العقد", key: "contractCode", width: 18 },
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "المحصل", key: "collectorName", width: 22 },
+    { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المحصل", key: "amountCollected", width: 18 },
+    { header: "المتبقي", key: "amountOutstanding", width: 18 },
+  ],
+  installments: [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "العقد", key: "contractCode", width: 18 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "نوع القسط", key: "installmentType", width: 18 },
+    { header: "تاريخ الاستحقاق", key: "dueDate", width: 18 },
+    { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المحصل", key: "amountCollected", width: 18 },
+    { header: "المتبقي", key: "amountOutstanding", width: 18 },
+    { header: "الحالة", key: "paymentStatus", width: 16 },
+    { header: "الغرامة", key: "penaltyAmount", width: 16 },
+  ],
+  "follow-ups": [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "تاريخ المتابعة", key: "followUpDate", width: 24 },
+    { header: "نوع التواصل", key: "contactType", width: 18 },
+    { header: "الملاحظة", key: "note", width: 40 },
+    { header: "المحصل", key: "collectorName", width: 22 },
+    { header: "الحالة", key: "followUpStatus", width: 16 },
+  ],
+  units: [
+    { header: "كود الوحدة", key: "unitCode", width: 18 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "الحالة", key: "unitStatus", width: 16 },
+    { header: "المساحة", key: "builtUpArea", width: 16 },
+    { header: "السعر", key: "listPrice", width: 18 },
+  ],
+  aging: [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "العقد", key: "contractCode", width: 18 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المتبقي", key: "amountOutstanding", width: 18 },
+    { header: "أيام التأخير", key: "delayDays", width: 16 },
+    { header: "فئة التأخير", key: "delayBucket", width: 18 },
+  ],
+  "who-paid": [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المحصل", key: "amountCollected", width: 18 },
+    { header: "المتبقي", key: "amountOutstanding", width: 18 },
+    { header: "الحالة", key: "status", width: 18 },
+  ],
+  overdue: [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "العقد", key: "contractCode", width: 18 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "نوع القسط", key: "installmentType", width: 18 },
+    { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المتبقي", key: "amountOutstanding", width: 18 },
+    { header: "أيام التأخير", key: "delayDays", width: 16 },
+    { header: "تاريخ الاستحقاق", key: "dueDate", width: 18 },
+  ],
+  penalties: [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "العقد", key: "contractCode", width: 18 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "نوع القسط", key: "installmentType", width: 18 },
+    { header: "الغرامة", key: "penaltyAmount", width: 16 },
+    { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المتبقي", key: "amountOutstanding", width: 18 },
+  ],
+  "project-status": [
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "عدد العقود", key: "contractCount", width: 16 },
+    { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المحصل", key: "amountCollected", width: 18 },
+    { header: "المتبقي", key: "amountOutstanding", width: 18 },
+    { header: "المتأخرات", key: "overdueAmount", width: 18 },
+    { header: "نسبة التحصيل", key: "collectionPercentage", width: 16 },
+  ],
+  "collection-notes": [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "تاريخ المتابعة", key: "followUpDate", width: 24 },
+    { header: "الملاحظة", key: "note", width: 40 },
+    { header: "رد العميل", key: "customerResponse", width: 30 },
+    { header: "المحصل", key: "collectorName", width: 22 },
+  ],
+  promises: [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "تاريخ الوعد", key: "promiseDate", width: 18 },
+    { header: "الملاحظة", key: "note", width: 40 },
+    { header: "المحصل", key: "collectorName", width: 22 },
+    { header: "حالة المتابعة", key: "followUpStatus", width: 18 },
+  ],
+  "no-follow-up": [
+    { header: "العميل", key: "customerName", width: 30 },
+    { header: "المشروع", key: "projectName", width: 22 },
+    { header: "المتبقي", key: "amountOutstanding", width: 18 },
+    { header: "آخر متابعة", key: "lastFollowUpDate", width: 24 },
+    { header: "أيام بدون متابعة", key: "daysSinceLastFollowUp", width: 18 },
+  ],
+};
+
+export const EXPORT_SHEET_NAMES: Record<ExportType, string> = {
+  customers: "العملاء",
+  contracts: "العقود",
+  installments: "الأقساط",
+  "follow-ups": "المتابعات",
+  units: "الوحدات",
+  aging: "أعمار المديونية",
+  "who-paid": "من سدد",
+  overdue: "المتأخرون",
+  penalties: "الغرامات",
+  "project-status": "موقف المشاريع",
+  "collection-notes": "ملاحظات التحصيل",
+  promises: "وعود السداد",
+  "no-follow-up": "بدون متابعة",
+};

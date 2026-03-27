@@ -1,0 +1,15 @@
+node_modules/
+.next/
+dist/
+build/
+coverage/
+.env*
+!.env.example
+*.log
+*.tmp
+*.swp
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
