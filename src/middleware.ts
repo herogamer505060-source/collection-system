@@ -5,7 +5,7 @@ import type { Database } from "@/types/database";
 
 import { getPublicEnv } from "@/lib/supabase/env";
 
-const AUTH_PATHS = new Set(["/login"]);
+const AUTH_PATHS = new Set(["/login", "/register"]);
 const PROTECTED_PREFIXES = [
   "/contracts",
   "/customers",
@@ -22,6 +22,18 @@ function isProtectedPath(pathname: string): boolean {
   return PROTECTED_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
 
+function buildLoginRedirect(request: NextRequest) {
+  const loginUrl = request.nextUrl.clone();
+  loginUrl.pathname = "/login";
+
+  if (request.nextUrl.pathname !== "/") {
+    const nextPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
+    loginUrl.searchParams.set("next", nextPath);
+  }
+
+  return NextResponse.redirect(loginUrl);
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -29,7 +41,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const env = getPublicEnv();
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -38,56 +49,59 @@ export async function middleware(request: NextRequest) {
   type CookieOptions = Parameters<typeof response.cookies.set>[2];
   type CookieToSet = { name: string; options?: CookieOptions; value: string };
 
-  const supabase = createServerClient<Database>(
-    env.NEXT_PUBLIC_SUPABASE_URL,
-    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet: CookieToSet[]) {
-          cookiesToSet.forEach(({ name, value }) => {
-            request.cookies.set(name, value);
-          });
+  try {
+    const env = getPublicEnv();
+    const supabase = createServerClient<Database>(
+      env.NEXT_PUBLIC_SUPABASE_URL,
+      env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet: CookieToSet[]) {
+            cookiesToSet.forEach(({ name, value }) => {
+              request.cookies.set(name, value);
+            });
 
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
+            response = NextResponse.next({
+              request: {
+                headers: request.headers,
+              },
+            });
 
-          cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options);
-          });
+            cookiesToSet.forEach(({ name, value, options }) => {
+              response.cookies.set(name, value, options);
+            });
+          },
         },
       },
-    },
-  );
+    );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  if (!user && isProtectedPath(pathname)) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/login";
-
-    if (request.nextUrl.pathname !== "/") {
-      const nextPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
-      loginUrl.searchParams.set("next", nextPath);
+    if (!user && isProtectedPath(pathname)) {
+      return buildLoginRedirect(request);
     }
 
-    return NextResponse.redirect(loginUrl);
-  }
+    if (user && AUTH_PATHS.has(pathname)) {
+      const raw = request.nextUrl.searchParams.get("next") ?? "";
+      const destination = raw.startsWith("/") && !raw.startsWith("//") ? raw : "/users";
+      return NextResponse.redirect(new URL(destination, request.url));
+    }
 
-  if (user && AUTH_PATHS.has(pathname)) {
-    const raw = request.nextUrl.searchParams.get("next") ?? "";
-    const destination = raw.startsWith("/") && !raw.startsWith("//") ? raw : "/users";
-    return NextResponse.redirect(new URL(destination, request.url));
-  }
+    return response;
+  } catch (error) {
+    console.error("Middleware auth check failed", error);
 
-  return response;
+    if (isProtectedPath(pathname)) {
+      return buildLoginRedirect(request);
+    }
+
+    return response;
+  }
 }
 
 export const config = {
