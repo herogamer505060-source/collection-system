@@ -1,24 +1,32 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pwsh -NoProfile -File \".specify/scripts/powershell/create-new-feature.ps1\" \"Build the MVP of an internal Arabic-first RTL real-estate collections management application.\" -Json -ShortName \"collections-mvp\")",
-      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/create-new-feature.ps1\" \"Build the MVP of an internal Arabic-first RTL real-estate collections management application.\" -Json -ShortName \"collections-mvp\")",
-      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/check-prerequisites.ps1\" -Json -PathsOnly)",
-      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/setup-plan.ps1\" -Json)",
-      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/update-agent-context.ps1\" -AgentType claude)",
-      "Bash(npx vitest:*)",
-      "Bash(npx supabase:*)",
+      "Bash(npm run *)",
+      "Bash(npm test *)",
+      "Bash(npx vitest *)",
+      "Bash(npx supabase *)",
+      "Bash(npx prettier *)",
+      "Bash(npx eslint *)",
+      "Bash(npx tsc *)",
+      "Bash(node scripts/*)",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -File \".specify/scripts/powershell/*\")",
+      "Bash(pwsh -NoProfile -File \".specify/scripts/powershell/*\")",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_supabase_supabase__list_migrations",
+      "mcp__plugin_supabase_supabase__apply_migration",
+      "mcp__plugin_supabase_supabase__execute_sql",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
       "Bash(for f:*)",
       "Bash(do echo:*)",
       "Read(//c/github/collection system/**)",
       "Bash(done)",
-      "mcp__plugin_playwright_playwright__browser_navigate",
-      "mcp__plugin_playwright_playwright__browser_take_screenshot",
-      "Bash(curl -s -X POST \"https://api.supabase.com/v1/projects/quylcgozipvhkztnxver/database/query\" -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1eWxjZ296aXB2aGt6dG54dmVyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDMwNjM1NiwiZXhwIjoyMDg5ODgyMzU2fQ.jWPposmEpWQVklyV6PRfOmiemY83p8RCIQu8SBXgUzI\" -H \"Content-Type: application/json\" -d \"{\"\"query\"\": \"\"SELECT 1 as test\"\"}\")",
-      "mcp__plugin_supabase_supabase__list_migrations",
-      "mcp__plugin_supabase_supabase__apply_migration",
-      "Bash(node scripts/setup-production.mjs bucket)",
-      "Bash(node scripts/setup-production.mjs admin f9a5038c-3149-4e21-b94e-3e191a7a87ec \"مدير النظام\" \"hero.gamer505060@gmail.com\")"
+      "Bash(node -e \"let d='''''''';process.stdin.on\\(''''data'''',c=>d+=c\\);process.stdin.on\\(''''end'''',\\(\\)=>{try{const j=JSON.parse\\(d\\);const f=j.tool_input?.file_path||'''''''';if\\(/\\\\.env$|\\\\.env\\\\.local$|\\\\.env\\\\.production$|credentials/i.test\\(f\\)\\){console.log\\(''''BLOCKED write to: ''''+f\\);process.exit\\(2\\)}else{console.log\\(''''Allowed''''\\)}}catch\\(e\\){console.log\\(''''Error:''''+e.message\\)}}\\)\")",
+      "Bash(echo \"Exit: $?\")",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "Bash(npx -y @modelcontextprotocol/server-sequential-thinking --help)",
+      "WebSearch"
     ]
   }
 }

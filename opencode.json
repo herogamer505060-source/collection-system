@@ -1,0 +1,67 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "build",
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 16000
+  },
+  "watcher": {
+    "ignore": [
+      ".git/**",
+      ".next/**",
+      "coverage/**",
+      "node_modules/**",
+      ".opencode/node_modules/**",
+      "playwright-report/**",
+      "test-results/**",
+      "supabase/.temp/**"
+    ]
+  },
+  "instructions": [
+    "docs/ai/automatic-tool-selection.md",
+    "docs/ai/opencode-workflow.md",
+    "docs/ai/frontend-quality-bar.md"
+  ],
+  "mcp": {
+    "supabase": {
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?project_ref=quylcgozipvhkztnxver&features=database,development,debugging,docs",
+      "enabled": true,
+      "timeout": 15000
+    },
+    "supabase_local": {
+      "type": "remote",
+      "url": "http://127.0.0.1:54321/mcp",
+      "enabled": false,
+      "timeout": 5000
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true,
+      "timeout": 10000
+    },
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app",
+      "enabled": true,
+      "timeout": 10000
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest",
+        "--headless",
+        "--browser",
+        "chromium",
+        "--allowed-origins",
+        "http://127.0.0.1:3000;http://localhost:3000"
+      ],
+      "enabled": true,
+      "timeout": 30000
+    }
+  }
+}

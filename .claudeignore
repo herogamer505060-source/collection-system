@@ -1,0 +1,63 @@
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# Dependencies
+node_modules/
+
+# Coverage & test artifacts
+coverage/
+.nyc_output/
+
+# Lock files (huge, not useful for Claude)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Source maps
+*.map
+
+# Minified files
+*.min.js
+*.min.css
+
+# Git internals
+.git/
+
+# Supabase temp
+supabase/.branches/
+supabase/.temp/
+
+# IDE & editor
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.turbo/
+.cache/
+.eslintcache
+
+# Binary/media assets (large, not useful for code context)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+*.woff
+*.woff2
+*.ttf
+*.eot
+
+# ERD diagrams (reference only)
+ERD/
