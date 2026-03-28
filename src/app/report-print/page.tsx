@@ -28,19 +28,19 @@ export default async function ReportPrintPage({ searchParams }: ReportPrintPageP
   const autoPrint = readSearchParam(params, "autoprint") === "1";
 
   return (
-    <main className="min-h-screen bg-white px-6 py-8 text-slate-950">
+    <main className="min-h-screen bg-white px-6 py-8 font-sans tracking-normal text-slate-950 [word-spacing:0]">
       <AutoPrintOnLoad enabled={autoPrint} />
       <PrintPageActions title={dataset.title} />
 
       <section className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <h1 className="font-display text-headline-sm text-slate-950">{dataset.title}</h1>
+            <h1 className="font-sans text-headline-sm font-bold leading-relaxed tracking-normal text-slate-950">{dataset.title}</h1>
             <p className="mt-2 text-body-md text-slate-600">تاريخ الإنشاء: {dataset.generatedAt}</p>
             <p className="mt-1 text-body-md text-slate-600">عدد الصفوف: {dataset.rows.length}</p>
           </div>
           {dataset.filterSummary.length > 0 ? (
-            <div className="flex max-w-3xl flex-wrap gap-2">
+            <div className="flex max-w-3xl flex-wrap gap-2 font-sans tracking-normal">
               {dataset.filterSummary.map((entry) => (
                 <div className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-label-lg text-slate-700" key={`${entry.label}-${entry.value}`}>
                   <span className="font-semibold text-slate-900">{entry.label}:</span> {entry.value}
@@ -51,11 +51,11 @@ export default async function ReportPrintPage({ searchParams }: ReportPrintPageP
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse text-right text-body-md print:text-[10pt]">
+          <table className="min-w-full border-collapse text-right text-body-md leading-7 print:text-[10pt]">
             <thead>
               <tr>
                 {dataset.columns.map((column) => (
-                  <th className="border border-slate-300 bg-slate-100 px-3 py-2 font-semibold text-slate-800" key={column.key} scope="col">
+                  <th className="border border-slate-300 bg-slate-100 px-3 py-2 font-sans font-semibold leading-7 tracking-normal text-slate-800 break-normal" key={column.key} scope="col">
                     {column.header}
                   </th>
                 ))}
@@ -66,7 +66,7 @@ export default async function ReportPrintPage({ searchParams }: ReportPrintPageP
                 dataset.rows.map((row, rowIndex) => (
                   <tr className={rowIndex % 2 === 0 ? "bg-white" : "bg-slate-50/70"} key={rowIndex}>
                     {dataset.columns.map((column) => (
-                      <td className="border border-slate-200 px-3 py-2 align-top text-slate-900" key={column.key}>
+                      <td className="border border-slate-200 px-3 py-2 align-top font-sans leading-7 tracking-normal text-slate-900 break-normal" key={column.key}>
                         {formatCellValue(row[column.key])}
                       </td>
                     ))}
@@ -74,7 +74,7 @@ export default async function ReportPrintPage({ searchParams }: ReportPrintPageP
                 ))
               ) : (
                 <tr>
-                  <td className="border border-slate-200 px-3 py-6 text-center text-slate-500" colSpan={dataset.columns.length}>
+                  <td className="border border-slate-200 px-3 py-6 text-center font-sans leading-7 tracking-normal text-slate-500" colSpan={dataset.columns.length}>
                     لا توجد بيانات ضمن النطاق الحالي.
                   </td>
                 </tr>

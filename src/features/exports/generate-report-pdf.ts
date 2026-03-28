@@ -14,6 +14,7 @@ const PAGE_HEIGHT = 794;
 const PAGE_PADDING = 36;
 const PAGE_WIDTH = 1123;
 const TABLE_FONT_SIZE = 12;
+const ARABIC_FONT_STACK = 'var(--font-ibm-plex-arabic), "IBM Plex Sans Arabic", Tahoma, "Segoe UI", Arial, sans-serif';
 
 export async function generateReportPdf(dataset: ReportPdfDataset): Promise<void> {
   const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
@@ -32,6 +33,10 @@ export async function generateReportPdf(dataset: ReportPdfDataset): Promise<void
   mount.style.background = "#ffffff";
   mount.style.color = "#111827";
   mount.style.padding = "0";
+  mount.style.fontFamily = ARABIC_FONT_STACK;
+  mount.style.letterSpacing = "0";
+  mount.style.lineHeight = "1.6";
+  mount.style.direction = "rtl";
 
   const rowsPerPage = getRowsPerPage(dataset.columns.length);
   const rowChunks = chunkRows(dataset.rows, rowsPerPage);
@@ -120,6 +125,8 @@ function buildPageElement(input: {
     boxSizing: "border-box",
     display: "flex",
     flexDirection: "column",
+    direction: "rtl",
+    fontFamily: ARABIC_FONT_STACK,
     gap: "18px",
     height: `${PAGE_HEIGHT}px`,
     justifyContent: "space-between",
@@ -142,24 +149,33 @@ function buildPageElement(input: {
   const titleWrap = createElement("div", { display: "flex", flexDirection: "column", gap: "6px" });
   const title = createTextElement("h1", input.title, {
     color: "#0f172a",
-    fontSize: "28px",
-    fontWeight: "800",
-    letterSpacing: "-0.02em",
-    lineHeight: "1.3",
+    fontFamily: ARABIC_FONT_STACK,
+    fontSize: "27px",
+    fontWeight: "700",
+    letterSpacing: "0",
+    lineHeight: "1.55",
     margin: "0",
+    wordBreak: "normal",
   });
   const subtitle = createTextElement(
     "p",
     `عدد الصفوف: ${input.totalRows} - الصفحة ${input.pageNumber} من ${input.totalPages}`,
     {
       color: "#475569",
+      fontFamily: ARABIC_FONT_STACK,
       fontSize: "14px",
+      letterSpacing: "0",
+      lineHeight: "1.6",
       margin: "0",
     },
   );
   const generatedAt = createTextElement("div", `تاريخ الإنشاء: ${input.generatedAt}`, {
     color: "#475569",
+    direction: "rtl",
+    fontFamily: ARABIC_FONT_STACK,
     fontSize: "14px",
+    letterSpacing: "0",
+    lineHeight: "1.6",
     margin: "0",
     textAlign: "left",
   });
@@ -209,18 +225,27 @@ function buildPageElement(input: {
   const thead = document.createElement("thead");
   const headRow = document.createElement("tr");
 
+  const totalColumnWeight = input.columns.reduce((sum, column) => sum + Math.max(column.width ?? 16, 12), 0);
+
   input.columns.forEach((column) => {
+    const widthPercent = `${(Math.max(column.width ?? 16, 12) / totalColumnWeight) * 100}%`;
     const cell = createTextElement("th", column.header, {
       background: "#eef3f2",
       borderBottom: "1px solid #dbe4e3",
       color: "#334155",
+      direction: "rtl",
+      fontFamily: ARABIC_FONT_STACK,
       fontSize: `${TABLE_FONT_SIZE}px`,
       fontWeight: "700",
+      letterSpacing: "0",
+      lineHeight: "1.7",
       padding: "10px 8px",
       textAlign: "right",
       verticalAlign: "top",
-      width: `${Math.max(column.width ?? 16, 12)}%`,
-      wordBreak: "break-word",
+      whiteSpace: "normal",
+      width: widthPercent,
+      wordBreak: "normal",
+      overflowWrap: "anywhere",
     });
     headRow.appendChild(cell);
   });
@@ -239,12 +264,17 @@ function buildPageElement(input: {
         const cell = createTextElement("td", formatCellValue(row[column.key]), {
           borderBottom: "1px solid #edf2f1",
           color: "#0f172a",
+          direction: "rtl",
+          fontFamily: ARABIC_FONT_STACK,
           fontSize: `${TABLE_FONT_SIZE}px`,
-          lineHeight: "1.7",
+          letterSpacing: "0",
+          lineHeight: "1.8",
           padding: "10px 8px",
           textAlign: "right",
           verticalAlign: "top",
-          wordBreak: "break-word",
+          whiteSpace: "normal",
+          wordBreak: "normal",
+          overflowWrap: "anywhere",
         });
         tr.appendChild(cell);
       });
@@ -255,7 +285,10 @@ function buildPageElement(input: {
     const tr = document.createElement("tr");
     const td = createTextElement("td", "لا توجد بيانات ضمن هذا النطاق", {
       color: "#475569",
+      direction: "rtl",
+      fontFamily: ARABIC_FONT_STACK,
       fontSize: "14px",
+      letterSpacing: "0",
       padding: "18px",
       textAlign: "center",
     });
@@ -269,7 +302,9 @@ function buildPageElement(input: {
 
   const footer = createTextElement("div", "Collection System - Executive Report", {
     color: "#64748b",
+    fontFamily: ARABIC_FONT_STACK,
     fontSize: "12px",
+    letterSpacing: "0",
     textAlign: "center",
   });
 
