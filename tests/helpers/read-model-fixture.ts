@@ -187,6 +187,8 @@ function createCustomer(overrides: Partial<Tables<"customers">>): Tables<"custom
     normalized_name: "عميل",
     notes: null,
     updated_at: "2026-03-01T00:00:00Z",
+    whatsapp_opted_out_at: null,
+    whatsapp_phone_normalized: null,
     ...overrides,
   };
 }

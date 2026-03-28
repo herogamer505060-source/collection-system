@@ -70,6 +70,8 @@ function createLargeCustomerFixture(customerCount: number) {
       normalized_name: customerName,
       notes: null,
       updated_at: "2026-03-01T00:00:00Z",
+      whatsapp_opted_out_at: null,
+      whatsapp_phone_normalized: null,
     });
     fixture.contracts.push({
       actual_delivery_date: null,

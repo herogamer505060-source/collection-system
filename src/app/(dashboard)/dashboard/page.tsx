@@ -60,7 +60,7 @@ export default async function DashboardPage({
             </StatusBadge>
           </>
         }
-        description="المؤشرات تتغير حسب المشروع المختار وصلاحيات المستخدم، وتدمج التحصيلات والمتابعات وآخر استيراد معتمد."
+        description="عرض تنفيذي هادئ يوضح وضع التحصيل الحالي، المخاطر المفتوحة، وأين يجب أن يبدأ التدخل اليوم."
         title="لوحة مؤشرات التحصيل"
         className="overflow-hidden"
       >

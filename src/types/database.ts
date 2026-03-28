@@ -268,6 +268,8 @@ export type Database = {
           normalized_name: string
           notes: string | null
           updated_at: string
+          whatsapp_opted_out_at: string | null
+          whatsapp_phone_normalized: string | null
         }
         Insert: {
           created_at?: string
@@ -281,6 +283,8 @@ export type Database = {
           normalized_name: string
           notes?: string | null
           updated_at?: string
+          whatsapp_opted_out_at?: string | null
+          whatsapp_phone_normalized?: string | null
         }
         Update: {
           created_at?: string
@@ -294,6 +298,8 @@ export type Database = {
           normalized_name?: string
           notes?: string | null
           updated_at?: string
+          whatsapp_opted_out_at?: string | null
+          whatsapp_phone_normalized?: string | null
         }
         Relationships: []
       }
@@ -791,6 +797,306 @@ export type Database = {
             columns: ["source_batch_id"]
             isOneToOne: false
             referencedRelation: "import_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_messages: {
+        Row: {
+          attempt_count: number
+          contract_id: string | null
+          created_at: string
+          created_by: string | null
+          customer_id: string
+          customer_wa_id: string | null
+          dedupe_key: string | null
+          delivered_at: string | null
+          direction: string
+          failed_at: string | null
+          follow_up_id: string | null
+          from_phone_number_id: string | null
+          id: string
+          installment_id: string | null
+          last_attempt_at: string | null
+          last_error_code: string | null
+          last_error_message: string | null
+          message_kind: string
+          message_purpose: string
+          meta_message_id: string | null
+          parent_message_id: string | null
+          project_id: string
+          provider_request: Json | null
+          provider_response: Json | null
+          raw_message: Json | null
+          read_at: string | null
+          received_at: string | null
+          scheduled_for: string | null
+          sent_at: string | null
+          status: string
+          template_id: string | null
+          template_params: Json | null
+          to_phone: string | null
+          to_phone_normalized: string | null
+          updated_at: string
+        }
+        Insert: {
+          attempt_count?: number
+          contract_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id: string
+          customer_wa_id?: string | null
+          dedupe_key?: string | null
+          delivered_at?: string | null
+          direction: string
+          failed_at?: string | null
+          follow_up_id?: string | null
+          from_phone_number_id?: string | null
+          id?: string
+          installment_id?: string | null
+          last_attempt_at?: string | null
+          last_error_code?: string | null
+          last_error_message?: string | null
+          message_kind: string
+          message_purpose: string
+          meta_message_id?: string | null
+          parent_message_id?: string | null
+          project_id: string
+          provider_request?: Json | null
+          provider_response?: Json | null
+          raw_message?: Json | null
+          read_at?: string | null
+          received_at?: string | null
+          scheduled_for?: string | null
+          sent_at?: string | null
+          status: string
+          template_id?: string | null
+          template_params?: Json | null
+          to_phone?: string | null
+          to_phone_normalized?: string | null
+          updated_at?: string
+        }
+        Update: {
+          attempt_count?: number
+          contract_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string
+          customer_wa_id?: string | null
+          dedupe_key?: string | null
+          delivered_at?: string | null
+          direction?: string
+          failed_at?: string | null
+          follow_up_id?: string | null
+          from_phone_number_id?: string | null
+          id?: string
+          installment_id?: string | null
+          last_attempt_at?: string | null
+          last_error_code?: string | null
+          last_error_message?: string | null
+          message_kind?: string
+          message_purpose?: string
+          meta_message_id?: string | null
+          parent_message_id?: string | null
+          project_id?: string
+          provider_request?: Json | null
+          provider_response?: Json | null
+          raw_message?: Json | null
+          read_at?: string | null
+          received_at?: string | null
+          scheduled_for?: string | null
+          sent_at?: string | null
+          status?: string
+          template_id?: string | null
+          template_params?: Json | null
+          to_phone?: string | null
+          to_phone_normalized?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_messages_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_messages_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_messages_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_messages_follow_up_id_fkey"
+            columns: ["follow_up_id"]
+            isOneToOne: false
+            referencedRelation: "follow_ups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_messages_installment_id_fkey"
+            columns: ["installment_id"]
+            isOneToOne: false
+            referencedRelation: "installments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_messages_parent_message_id_fkey"
+            columns: ["parent_message_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_messages_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_messages_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_templates: {
+        Row: {
+          approval_status: string
+          archived_at: string | null
+          category: string
+          components_json: Json
+          created_at: string
+          created_by: string | null
+          id: string
+          language_code: string
+          meta_template_id: string | null
+          project_id: string | null
+          template_name: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          approval_status?: string
+          archived_at?: string | null
+          category: string
+          components_json?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          language_code: string
+          meta_template_id?: string | null
+          project_id?: string | null
+          template_name: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          approval_status?: string
+          archived_at?: string | null
+          category?: string
+          components_json?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          language_code?: string
+          meta_template_id?: string | null
+          project_id?: string | null
+          template_name?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_templates_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_templates_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whatsapp_webhook_events: {
+        Row: {
+          created_at: string
+          customer_wa_id: string | null
+          event_timestamp: string | null
+          event_type: string
+          headers_json: Json | null
+          id: string
+          message_id: string | null
+          meta_message_id: string | null
+          payload: Json
+          processed_at: string | null
+          processing_error: string | null
+          processing_status: string
+          project_id: string | null
+          provider_event_key: string
+        }
+        Insert: {
+          created_at?: string
+          customer_wa_id?: string | null
+          event_timestamp?: string | null
+          event_type: string
+          headers_json?: Json | null
+          id?: string
+          message_id?: string | null
+          meta_message_id?: string | null
+          payload: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          processing_status?: string
+          project_id?: string | null
+          provider_event_key: string
+        }
+        Update: {
+          created_at?: string
+          customer_wa_id?: string | null
+          event_timestamp?: string | null
+          event_type?: string
+          headers_json?: Json | null
+          id?: string
+          message_id?: string | null
+          meta_message_id?: string | null
+          payload?: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          processing_status?: string
+          project_id?: string | null
+          provider_event_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_webhook_events_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "whatsapp_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "whatsapp_webhook_events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]
