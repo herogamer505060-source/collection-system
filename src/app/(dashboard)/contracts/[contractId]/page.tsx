@@ -45,14 +45,15 @@ export default async function ContractDetailPage({ params }: ContractDetailPageP
     <section className="space-y-6">
       <ContractDetailOverview canEdit={canEdit} contract={detail.contract} profileOptions={profileOptions} />
 
-      <section className="space-y-4 rounded-2xl bg-surface-container-lowest p-5 ambient-shadow">
+      <section className="executive-panel space-y-4 rounded-[28px] p-5 sm:p-6">
         <div>
-          <h3 className="font-display text-title-lg text-on-surface">الوحدات المرتبطة</h3>
+          <div className="text-label-lg uppercase tracking-[0.16em] text-primary/65">Contract assets</div>
+          <h3 className="mt-2 font-display text-title-lg text-[hsl(var(--premium-ink))]">الوحدات المرتبطة</h3>
           <p className="mt-2 text-body-md text-on-surface-variant">كل وحدة تعرض الحالة الحالية والأسعار والمساحات المرتبطة بالعقد.</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {detail.units.map((unit) => (
-            <article className="rounded-xl bg-surface-container-low p-4" key={unit.unitId}>
+            <article className="executive-soft-panel rounded-2xl p-4" key={unit.unitId}>
               <div className="flex items-center justify-between gap-3">
                 <div className="font-semibold text-on-surface">{unit.unitCode}</div>
                 <StatusBadge variant="neutral">{getUnitStatusLabel(unit.unitStatus)}</StatusBadge>
@@ -71,7 +72,8 @@ export default async function ContractDetailPage({ params }: ContractDetailPageP
 
       <section className="space-y-4">
         <div>
-          <h3 className="font-display text-title-lg text-on-surface">جدول الأقساط</h3>
+          <div className="text-label-lg uppercase tracking-[0.16em] text-primary/65">Collection timeline</div>
+          <h3 className="mt-2 font-display text-title-lg text-[hsl(var(--premium-ink))]">جدول الأقساط</h3>
           <p className="mt-2 text-body-md text-on-surface-variant">المواعيد والمبالغ وحالة التحصيل لكل قسط داخل العقد.</p>
         </div>
         <InstallmentsTable
@@ -91,15 +93,16 @@ export default async function ContractDetailPage({ params }: ContractDetailPageP
         />
       </section>
 
-      <section className="space-y-4 rounded-2xl bg-surface-container-lowest p-5 ambient-shadow">
+      <section className="executive-panel space-y-4 rounded-[28px] p-5 sm:p-6">
         <div>
-          <h3 className="font-display text-title-lg text-on-surface">المتابعات المرتبطة</h3>
+          <div className="text-label-lg uppercase tracking-[0.16em] text-primary/65">Follow-up log</div>
+          <h3 className="mt-2 font-display text-title-lg text-[hsl(var(--premium-ink))]">المتابعات المرتبطة</h3>
           <p className="mt-2 text-body-md text-on-surface-variant">التسلسل الزمني الكامل لآخر تواصلات التحصيل الخاصة بهذا العقد.</p>
         </div>
         <div className="space-y-3">
           {detail.followUps.length > 0 ? (
             detail.followUps.map((followUp) => (
-              <article className="rounded-xl bg-surface-container-low p-4" key={followUp.id}>
+              <article className="executive-soft-panel rounded-2xl p-4" key={followUp.id}>
                 <div className="flex flex-wrap items-center gap-3">
                   <StatusBadge variant={getFollowUpStatusVariant(followUp.followUpStatus)}>
                     {getFollowUpStatusLabel(followUp.followUpStatus)}
@@ -115,16 +118,17 @@ export default async function ContractDetailPage({ params }: ContractDetailPageP
               </article>
             ))
           ) : (
-            <div className="rounded-xl bg-surface-container-low px-4 py-6 text-body-md text-on-surface-variant">
+            <div className="executive-soft-panel rounded-2xl px-4 py-6 text-body-md text-on-surface-variant">
               لا توجد متابعات مرتبطة بهذا العقد.
             </div>
           )}
         </div>
       </section>
 
-      <section className="space-y-4 rounded-2xl bg-surface-container-lowest p-5 ambient-shadow">
+      <section className="executive-panel space-y-4 rounded-[28px] p-5 sm:p-6">
         <div>
-          <h3 className="font-display text-title-lg text-on-surface">المستندات المرفقة</h3>
+          <div className="text-label-lg uppercase tracking-[0.16em] text-primary/65">Attachments</div>
+          <h3 className="mt-2 font-display text-title-lg text-[hsl(var(--premium-ink))]">المستندات المرفقة</h3>
           <p className="mt-2 text-body-md text-on-surface-variant">
             ارفع نسخ PDF للعقد أو الملحقات أو الإيصالات وشاركها مع الإدارة عند الحاجة.
           </p>

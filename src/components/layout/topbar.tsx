@@ -76,18 +76,30 @@ export function Topbar({ lastImportAt, sessionUser }: TopbarProps) {
 
   return (
     <header
-      className="flex flex-col gap-4 rounded-2xl bg-white/80 px-6 py-4 glass-nav ambient-shadow lg:flex-row lg:items-center lg:justify-between"
+      className="executive-panel glass-nav flex flex-col gap-5 rounded-[30px] px-5 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-7"
       data-topbar
     >
-      <div>
-        <h1 className="font-display text-headline-sm font-bold text-on-surface">{page.title}</h1>
-        <p className="mt-1 text-body-md text-on-surface-variant">{page.description}</p>
+      <div className="space-y-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-primary/10 bg-primary/5 px-3 py-1 font-label text-label-lg uppercase tracking-[0.22em] text-primary/75">
+            Operations cockpit
+          </span>
+        </div>
+        <div>
+          <h1 className="font-display text-headline-sm font-bold tracking-[-0.02em] text-[hsl(var(--premium-ink))] lg:text-headline-md">{page.title}</h1>
+          <p className="mt-2 max-w-3xl text-body-md leading-7 text-on-surface-variant">{page.description}</p>
+        </div>
       </div>
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+      <div className="flex flex-col gap-3 lg:min-w-[340px] lg:max-w-[440px]">
         <LastDataUpdate lastImportAt={lastImportAt} />
-        <div className="rounded-xl bg-surface-container-low px-4 py-3 text-label-lg text-on-surface-variant">
-          <span className="font-semibold text-on-surface">{sessionUser.email ?? sessionUser.fullName}</span>
-          <span className="mr-2 text-label-md">{primaryRole ? ROLE_LABELS_AR[primaryRole] : "مستخدم مصادق"}</span>
+        <div className="rounded-[24px] border border-[rgba(188,201,200,0.5)] bg-[rgba(247,249,248,0.92)] px-4 py-3 text-label-lg text-on-surface-variant">
+          <div className="text-label-lg uppercase tracking-[0.16em] text-primary/65">Session</div>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span className="font-semibold text-on-surface">{sessionUser.email ?? sessionUser.fullName}</span>
+            <span className="rounded-full bg-white px-2.5 py-1 text-label-md text-on-surface-variant">
+              {primaryRole ? ROLE_LABELS_AR[primaryRole] : "مستخدم مصادق"}
+            </span>
+          </div>
         </div>
       </div>
     </header>

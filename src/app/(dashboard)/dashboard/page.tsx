@@ -62,10 +62,11 @@ export default async function DashboardPage({
         }
         description="المؤشرات تتغير حسب المشروع المختار وصلاحيات المستخدم، وتدمج التحصيلات والمتابعات وآخر استيراد معتمد."
         title="لوحة مؤشرات التحصيل"
+        className="overflow-hidden"
       >
         <form action="/dashboard" className="flex w-full flex-wrap gap-3">
           <select
-            className="min-w-[240px] rounded-xl border border-outline-variant/20 bg-surface-container-lowest px-4 py-3 text-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-[#8ad3d7]/30"
+            className="min-w-[240px] flex-1 rounded-2xl border border-[rgba(188,201,200,0.6)] bg-white/90 px-4 py-3 text-body-md text-on-surface outline-none transition-all focus:border-primary focus:ring-2 focus:ring-[#8ad3d7]/30"
             defaultValue={projectId ?? ""}
             name="projectId"
           >
@@ -81,7 +82,7 @@ export default async function DashboardPage({
             startDateValue={filters.startDate ?? null}
           />
           <button
-            className="gradient-primary rounded-xl px-4 py-3 text-body-md font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:opacity-90"
+            className="gradient-primary rounded-2xl px-5 py-3 text-body-md font-semibold text-white shadow-lg shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:opacity-95"
             type="submit"
           >
             تطبيق نطاق المشروع
@@ -92,16 +93,22 @@ export default async function DashboardPage({
       <KpiGrid kpis={kpis} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl bg-surface-container-lowest p-5 ambient-shadow">
-          <h3 className="mb-4 font-display text-title-lg text-on-surface">
+        <div className="executive-panel rounded-[28px] p-5 sm:p-6">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h3 className="font-display text-title-lg text-[hsl(var(--premium-ink))]">
             التحصيل حسب المشروع
-          </h3>
+            </h3>
+            <span className="rounded-full bg-primary/5 px-3 py-1 text-label-lg text-primary/80">توزيع نقدي</span>
+          </div>
           <CollectionByProjectChart data={chartData.byProject} />
         </div>
-        <div className="rounded-2xl bg-surface-container-lowest p-5 ambient-shadow">
-          <h3 className="mb-4 font-display text-title-lg text-on-surface">
+        <div className="executive-panel rounded-[28px] p-5 sm:p-6">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h3 className="font-display text-title-lg text-[hsl(var(--premium-ink))]">
             توزيع المتأخرات
-          </h3>
+            </h3>
+            <span className="rounded-full bg-[rgba(183,146,82,0.12)] px-3 py-1 text-label-lg text-[#7a5d2f]">مخاطر التحصيل</span>
+          </div>
           <AgingDistributionChart data={chartData.byAging} />
         </div>
       </div>

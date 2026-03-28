@@ -30,14 +30,15 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
   const error = readSearchParam(params, "error");
 
   return (
-    <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
+    <main className="min-h-screen bg-transparent px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-6xl items-center">
         <div className="grid w-full gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <section className="rounded-2xl bg-surface-container-low p-8 lg:p-10">
-            <span className="inline-flex rounded-full bg-surface-container-lowest px-3 py-1 text-label-lg font-semibold text-primary">
+          <section className="executive-panel executive-mesh relative overflow-hidden rounded-[32px] p-8 lg:p-10">
+            <div className="absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-[rgba(183,146,82,0.1)] to-transparent lg:block" />
+            <span className="inline-flex rounded-full border border-primary/10 bg-white/80 px-3 py-1 text-label-lg font-semibold text-primary">
               The Financial Architect
             </span>
-            <h1 className="mt-6 bg-gradient-to-br from-primary to-primary-container bg-clip-text font-display text-display-sm text-transparent lg:text-display-md">
+            <h1 className="mt-6 max-w-2xl font-display text-display-sm tracking-[-0.04em] text-[hsl(var(--premium-ink))] lg:text-display-md">
               أنشئ حسابك وابدأ العمل من اللحظة الأولى
             </h1>
             <p className="mt-4 max-w-xl text-body-lg leading-8 text-on-surface-variant">
@@ -45,20 +46,20 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
               التحصيل الموحدة.
             </p>
 
-            <div className="mt-8 space-y-3">
-              <div className="rounded-xl bg-surface-container-lowest px-4 py-4">
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl border border-white/70 bg-white/75 px-4 py-4 backdrop-blur-sm">
                 <div className="text-label-lg font-semibold text-on-surface">انطلاقة سريعة</div>
                 <p className="mt-1 text-body-md text-on-surface-variant">
                   الحساب الجديد يُنشأ فوراً ويمكن استخدامه مباشرة بعد إتمام التسجيل.
                 </p>
               </div>
-              <div className="rounded-xl bg-surface-container-lowest px-4 py-4">
+              <div className="rounded-2xl border border-white/70 bg-white/75 px-4 py-4 backdrop-blur-sm">
                 <div className="text-label-lg font-semibold text-on-surface">صلاحيات قابلة للترقية</div>
                 <p className="mt-1 text-body-md text-on-surface-variant">
                   يبدأ الحساب بصلاحية مشاهدة، ويمكن لمدير النظام رفع مستوى الوصول لاحقاً.
                 </p>
               </div>
-              <div className="rounded-xl bg-surface-container-lowest px-4 py-4">
+              <div className="rounded-2xl border border-white/70 bg-white/75 px-4 py-4 backdrop-blur-sm">
                 <div className="text-label-lg font-semibold text-on-surface">تجربة متناسقة</div>
                 <p className="mt-1 text-body-md text-on-surface-variant">
                   نفس اللغة البصرية والتنظيمية سترافقك من شاشة التسجيل حتى التقارير اليومية.
@@ -67,13 +68,13 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
             </div>
           </section>
 
-          <section className="rounded-2xl bg-surface-container-lowest p-8 ambient-shadow lg:p-10">
+          <section className="executive-panel rounded-[32px] p-8 lg:p-10">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-label-lg font-semibold uppercase tracking-[0.24em] text-primary/70">
                   Create Account
                 </p>
-                <h2 className="mt-3 font-display text-headline-sm text-on-surface">بيانات الحساب الجديد</h2>
+                <h2 className="mt-3 font-display text-headline-sm tracking-[-0.02em] text-[hsl(var(--premium-ink))]">بيانات الحساب الجديد</h2>
                 <p className="mt-2 text-body-md text-on-surface-variant">جميع الحقول مطلوبة لإتمام التسجيل.</p>
               </div>
               <Link className="text-body-md font-semibold text-primary transition-colors hover:text-primary-container" href="/login">

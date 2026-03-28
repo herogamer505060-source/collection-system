@@ -16,10 +16,10 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
   const lastImportAt = await getLastImportAt().catch(() => null);
 
   return (
-    <div className="min-h-screen bg-surface">
-      <div className="grid min-h-screen lg:grid-cols-[280px_1fr]">
+    <div className="min-h-screen bg-transparent">
+      <div className="grid min-h-screen xl:grid-cols-[300px_1fr]">
         <Sidebar sessionUser={sessionUser} />
-        <div className="flex flex-col gap-6 p-6 lg:p-8">
+        <div className="relative flex flex-col gap-6 px-4 pb-6 pt-4 sm:px-6 lg:px-8 lg:pb-8 lg:pt-6 xl:px-10">
           <Topbar lastImportAt={lastImportAt} sessionUser={sessionUser} />
           <main className="flex-1">{children}</main>
         </div>

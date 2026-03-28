@@ -27,64 +27,118 @@ npm run dev       # Dev server
 
 ## Auto-Invocation Rules
 
-Choose the best tools, MCPs, skills, and workflow automatically based on the task. Do NOT ask the user to pick — just do the right thing.
+Choose the best tools, MCPs, skills, and workflow automatically. **Never ask the user which tool — just do the right thing.**
+
+---
+
+### STEP 0 — Start of Every Conversation
+
+| Trigger              | Action                                                                      |
+| -------------------- | --------------------------------------------------------------------------- |
+| Any new conversation | Invoke `superpowers:using-superpowers` first to discover which skills apply |
+
+---
 
 ### MCP Auto-Selection
 
-| Context | MCP to Use | When |
-|---------|-----------|------|
-| Database work | `supabase` | Schema, migrations, SQL, RLS policies |
-| Framework/library docs | `context7` | Next.js, React, Supabase, Tailwind, shadcn/ui, TanStack, Zod, Vitest |
-| Complex reasoning | `sequential-thinking` | Architecture decisions, debugging, multi-step planning |
-| Browser testing | `playwright` | UI verification, visual testing |
-| Code patterns | `gh_grep` (if available) | Real-world implementation examples |
+| Context                      | MCP                       | When                                                                 |
+| ---------------------------- | ------------------------- | -------------------------------------------------------------------- |
+| Database work                | `supabase` MCP            | Schema, migrations, SQL, RLS, edge functions                         |
+| Framework/library docs       | `context7` MCP            | Next.js, React, Supabase, Tailwind, shadcn/ui, Zod, Vitest, TanStack |
+| Complex multi-step reasoning | `sequential-thinking` MCP | Architecture decisions, root-cause debugging, technical planning     |
+| Browser/UI testing           | `playwright` MCP          | Visual verification, E2E testing, screenshot comparison              |
+| Design generation            | `stitch` MCP              | Generate screens, design systems, UI variants from text              |
+| Deployment/monitoring        | `vercel` MCP              | Deploy, check logs, monitor build errors                             |
+| GitHub operations            | `github` MCP              | PRs, issues, code search, reviews                                    |
+
+---
 
 ### Skill Auto-Selection
 
-| Task Type | Skills to Invoke | Priority |
-|-----------|-----------------|----------|
-| New feature/idea | `brainstorming` → `writing-plans` | Always brainstorm first |
-| Building UI | `frontend-design` or `frontend-developer` | Based on design vs implementation |
-| Bug/test failure | `systematic-debugging` | Before proposing any fix |
-| Writing code | `test-driven-development` | Before implementation |
-| Code complete | `verification-before-completion` | Before claiming done |
-| Multiple independent tasks | `dispatching-parallel-agents` | 2+ independent tasks |
-| Design review | `critique` → `polish` | Evaluate then refine |
-| Layout issues | `arrange` | Spacing, rhythm, hierarchy |
-| Performance | `optimize` | Slow, laggy, bundle size |
-| Pre-merge | `requesting-code-review` | Before merge/PR |
-| Responsive design | `adapt` | Mobile/tablet/desktop |
-| Typography | `typeset` | Font, sizing, readability |
-| Color/visual | `colorize` or `bolder` | Based on need |
-| Database optimization | `database-optimizer` | Query/schema issues |
-| Backend architecture | `backend-architect` | System design, APIs |
+#### Planning & Ideation
 
-### Subagent Auto-Selection
+| Task                           | Skill                                                                      | Priority                           |
+| ------------------------------ | -------------------------------------------------------------------------- | ---------------------------------- |
+| New feature or idea            | `superpowers:brainstorming` → `superpowers:writing-plans`                  | Always brainstorm first, then plan |
+| Feature spec needed            | `speckit.specify` → `speckit.clarify` → `speckit.plan` → `speckit.tasks`   | Full spec workflow                 |
+| Convert tasks to GitHub issues | `speckit.taskstoissues`                                                    | After tasks.md is ready            |
+| Executing a written plan       | `superpowers:executing-plans` or `superpowers:subagent-driven-development` | Based on size                      |
 
-| Task | Agent | Model |
-|------|-------|-------|
-| Research/exploration | `research` | Sonnet (fast, cheap) |
-| Focused code changes | `executor` | Sonnet (fast, cheap) |
-| Code review | `reviewer` | Sonnet (fast, cheap) |
-| Planning/architecture | Main session | Opus (deep reasoning) |
-| Complex debugging | Main session | Opus (deep reasoning) |
+#### Building
+
+| Task                    | Skill                                     | When                        |
+| ----------------------- | ----------------------------------------- | --------------------------- |
+| Any code implementation | `superpowers:test-driven-development`     | Before writing code         |
+| UI components/pages     | `frontend-design`                         | Design-quality interfaces   |
+| UI implementation       | `frontend-developer`                      | Pure code, no design needed |
+| 2+ independent tasks    | `superpowers:dispatching-parallel-agents` | Parallelize immediately     |
+| Feature branch work     | `superpowers:using-git-worktrees`         | Isolate from main workspace |
+
+#### Design & UI Polish
+
+| Task                         | Skill                                      | When                        |
+| ---------------------------- | ------------------------------------------ | --------------------------- |
+| Generate UI from description | `stitch` MCP (`generate_screen_from_text`) | First pass for any screen   |
+| Design system                | `stitch` MCP (`create_design_system`)      | Establish tokens/components |
+| Design review                | `critique` → `polish`                      | Evaluate then refine        |
+| Layout/spacing issues        | `arrange`                                  | Visual rhythm, hierarchy    |
+| Color lacking                | `colorize` or `bolder`                     | Based on intensity needed   |
+| Too aggressive               | `quieter`                                  | Tone it down                |
+| Typography                   | `typeset`                                  | Font, sizing, readability   |
+| Responsive                   | `adapt`                                    | Mobile/tablet/desktop       |
+| Animations                   | `animate`                                  | Motion, micro-interactions  |
+| Design system drift          | `normalize`                                | Realign to tokens           |
+| Over-complex design          | `distill`                                  | Strip to essence            |
+| Polish pass                  | `polish`                                   | Pre-ship quality check      |
+
+#### Debugging & Quality
+
+| Task                      | Skill                                        | When                                |
+| ------------------------- | -------------------------------------------- | ----------------------------------- |
+| Any bug or test failure   | `superpowers:systematic-debugging`           | Before proposing any fix            |
+| About to claim done       | `superpowers:verification-before-completion` | Run checks, not just promise        |
+| Code complete/pre-merge   | `superpowers:requesting-code-review`         | Every PR                            |
+| Receiving review feedback | `superpowers:receiving-code-review`          | Before implementing suggestions     |
+| Finishing a branch        | `superpowers:finishing-a-development-branch` | Structured merge/PR options         |
+| Code quality pass         | `code-reviewer` or `/review-query`           | After writing queries or components |
+| DB query optimization     | `database-optimizer`                         | Slow queries, schema design         |
+| Backend architecture      | `backend-architect`                          | System design, API design           |
+
+---
+
+### Subagent Model Routing
+
+| Task                          | Agent               | Model  | Reason                                  |
+| ----------------------------- | ------------------- | ------ | --------------------------------------- |
+| Codebase research/exploration | `research` subagent | Sonnet | Fast, no deep reasoning needed          |
+| Focused code changes          | `executor` subagent | Sonnet | Execution, not analysis                 |
+| Code review                   | `reviewer` subagent | Sonnet | Pattern matching, well-defined criteria |
+| Architecture decisions        | Main session        | Opus   | Requires deep reasoning                 |
+| Complex debugging             | Main session        | Opus   | Multi-step causal analysis              |
+| Long planning sessions        | Main session        | Opus   | Context retention matters               |
+
+---
 
 ### Slash Commands
 
-| Command | When to Use |
-|---------|-------------|
-| `/check-build` | After completing a feature, before committing |
-| `/quick-test` | After code changes, verify tests pass |
-| `/review-query` | After writing Supabase queries |
-| `/deploy-check` | Before deployment |
+| Command         | When                                          |
+| --------------- | --------------------------------------------- |
+| `/check-build`  | After completing a feature, before committing |
+| `/quick-test`   | After code changes                            |
+| `/review-query` | After writing any Supabase query              |
+| `/deploy-check` | Before deployment                             |
+
+---
 
 ### Decision Principles
 
-1. **Never ask the user which tool to use** — infer from context
-2. **Brainstorm before building** — any new feature goes through brainstorming first
-3. **Debug systematically** — never guess at fixes
-4. **Verify before claiming done** — run checks, not just promise
-5. **Use Sonnet for execution, Opus for thinking** — save tokens on routine work
-6. **Delegate to subagents** when tasks are independent and can run in parallel
-7. **Use Context7** before relying on training data for any library/framework question
-8. **Use Sequential Thinking** for complex multi-step reasoning
+1. **Start every conversation** with `superpowers:using-superpowers`
+2. **Never ask the user which tool** — infer from context and invoke automatically
+3. **Brainstorm before building** — new feature → brainstorm → plan → implement
+4. **Use speckit** for feature work requiring specs, tasks, or GitHub issues
+5. **Debug systematically** — `systematic-debugging` before any fix attempt
+6. **Verify before claiming done** — `verification-before-completion` always
+7. **Parallelize** with `dispatching-parallel-agents` when 2+ tasks are independent
+8. **Use Context7** before relying on training data for any library question
+9. **Use Stitch MCP** for generating UI screens and design systems
+10. **Use Sonnet for execution, Opus for thinking** — save cost on routine work

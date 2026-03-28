@@ -38,6 +38,10 @@
 
     --outline: 180 5% 45%;
     --outline-variant: 180 8% 76%;
+
+    --premium-ink: 192 28% 14%;
+    --premium-gold: 36 43% 62%;
+    --premium-line: 183 20% 84%;
   }
 
   * {
@@ -49,8 +53,12 @@
   }
 
   body {
-    @apply min-h-screen bg-[#f8f9fa] text-[#191c1d];
+    @apply min-h-screen text-[#191c1d];
     font-feature-settings: "kern" 1;
+    background:
+      radial-gradient(circle at top right, rgba(15, 102, 106, 0.1), transparent 24%),
+      radial-gradient(circle at left 18%, rgba(183, 146, 82, 0.14), transparent 20%),
+      linear-gradient(180deg, #f8f6f1 0%, #eef3f2 55%, #edf2f1 100%);
   }
 
   ::selection {
@@ -63,7 +71,7 @@
   }
 
   .gradient-primary {
-    background: linear-gradient(135deg, #0f666a, #337f83);
+    background: linear-gradient(135deg, #0f666a 0%, #185d66 48%, #6f8f91 100%);
   }
 
   .ghost-border {
@@ -72,6 +80,55 @@
 
   .ambient-shadow {
     box-shadow: 0 8px 24px rgba(25, 28, 29, 0.06);
+  }
+
+  .executive-panel {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(246, 249, 248, 0.92));
+    border: 1px solid rgba(188, 201, 200, 0.6);
+    box-shadow: 0 24px 60px -36px rgba(17, 24, 39, 0.28);
+  }
+
+  .executive-soft-panel {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(246, 248, 247, 0.82));
+    border: 1px solid rgba(188, 201, 200, 0.52);
+    box-shadow: 0 18px 40px -34px rgba(15, 23, 42, 0.24);
+  }
+
+  .executive-border {
+    border: 1px solid rgba(188, 201, 200, 0.48);
+  }
+
+  .executive-highlight {
+    background: linear-gradient(135deg, rgba(15, 102, 106, 0.12), rgba(183, 146, 82, 0.08));
+  }
+
+  .executive-mesh {
+    background-image:
+      linear-gradient(rgba(188, 201, 200, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(188, 201, 200, 0.12) 1px, transparent 1px);
+    background-position: center;
+    background-size: 28px 28px;
+  }
+
+  .premium-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(15, 102, 106, 0.28) transparent;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(15, 102, 106, 0.22);
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
 

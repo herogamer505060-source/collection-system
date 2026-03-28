@@ -32,14 +32,15 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const registered = readSearchParam(params, "registered");
 
   return (
-    <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
+    <main className="min-h-screen bg-transparent px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-6xl items-center">
         <div className="grid w-full gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <section className="rounded-2xl bg-surface-container-low p-8 lg:p-10">
-            <span className="inline-flex rounded-full bg-surface-container-lowest px-3 py-1 text-label-lg font-semibold text-primary">
+          <section className="executive-panel executive-mesh relative overflow-hidden rounded-[32px] p-8 lg:p-10">
+            <div className="absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-[rgba(183,146,82,0.1)] to-transparent lg:block" />
+            <span className="inline-flex rounded-full border border-primary/10 bg-white/80 px-3 py-1 text-label-lg font-semibold text-primary">
               The Financial Architect
             </span>
-            <h1 className="mt-6 bg-gradient-to-br from-primary to-primary-container bg-clip-text font-display text-display-sm text-transparent lg:text-display-md">
+            <h1 className="mt-6 max-w-2xl font-display text-display-sm tracking-[-0.04em] text-[hsl(var(--premium-ink))] lg:text-display-md">
               دخول هادئ لمساحة التحصيل التنفيذية
             </h1>
             <p className="mt-4 max-w-xl text-body-lg leading-8 text-on-surface-variant">
@@ -47,20 +48,20 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               والقرارات اليومية الدقيقة.
             </p>
 
-            <div className="mt-8 space-y-3">
-              <div className="rounded-xl bg-surface-container-lowest px-4 py-4">
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl border border-white/70 bg-white/75 px-4 py-4 backdrop-blur-sm">
                 <div className="text-label-lg font-semibold text-on-surface">وصول منظم حسب الصلاحيات</div>
                 <p className="mt-1 text-body-md text-on-surface-variant">
                   يتم التحقق من الجلسة والدور قبل فتح الشاشات التشغيلية أو واجهات الإدارة.
                 </p>
               </div>
-              <div className="rounded-xl bg-surface-container-lowest px-4 py-4">
+              <div className="rounded-2xl border border-white/70 bg-white/75 px-4 py-4 backdrop-blur-sm">
                 <div className="text-label-lg font-semibold text-on-surface">واجهة عربية أولاً</div>
                 <p className="mt-1 text-body-md text-on-surface-variant">
                   كل تفاصيل المتابعة والتحصيل مصممة لتدفق RTL واضح ومريح طوال يوم العمل.
                 </p>
               </div>
-              <div className="rounded-xl bg-surface-container-lowest px-4 py-4">
+              <div className="rounded-2xl border border-white/70 bg-white/75 px-4 py-4 backdrop-blur-sm">
                 <div className="text-label-lg font-semibold text-on-surface">تركيز على الإشارات المهمة</div>
                 <p className="mt-1 text-body-md text-on-surface-variant">
                   مؤشرات الحالات، التقارير، وسجل المتابعات تظهر بهرمية بصرية تقلل الإرهاق.
@@ -69,13 +70,13 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </div>
           </section>
 
-          <section className="rounded-2xl bg-surface-container-lowest p-8 ambient-shadow lg:p-10">
+          <section className="executive-panel rounded-[32px] p-8 lg:p-10">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-label-lg font-semibold uppercase tracking-[0.24em] text-primary/70">
                   Welcome Back
                 </p>
-                <h2 className="mt-3 font-display text-headline-sm text-on-surface">بيانات الدخول</h2>
+                <h2 className="mt-3 font-display text-headline-sm tracking-[-0.02em] text-[hsl(var(--premium-ink))]">بيانات الدخول</h2>
                 <p className="mt-2 text-body-md text-on-surface-variant">
                   أدخل البريد الإلكتروني وكلمة المرور للمتابعة إلى النظام.
                 </p>
