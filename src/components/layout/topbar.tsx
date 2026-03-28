@@ -52,26 +52,25 @@ type TopbarProps = {
 
 export function Topbar({ lastImportAt, sessionUser }: TopbarProps) {
   const pathname = usePathname();
-  const page =
-    pathname.startsWith("/imports/")
+  const page = pathname.startsWith("/imports/")
+    ? {
+        description: "تفاصيل الدفعة، المراجعة النهائية، وسجل المشكلات قبل أو بعد الاعتماد.",
+        title: "تفاصيل دفعة الاستيراد",
+      }
+    : pathname.startsWith("/customers/")
       ? {
-          description: "تفاصيل الدفعة، المراجعة النهائية، وسجل المشكلات قبل أو بعد الاعتماد.",
-          title: "تفاصيل دفعة الاستيراد",
+          description: "ملف العميل الكامل: العقود والوحدات والأقساط وسجل المتابعات التشغيلية.",
+          title: "ملف العميل",
         }
-      : pathname.startsWith("/customers/")
+      : pathname.startsWith("/contracts/")
         ? {
-            description: "ملف العميل الكامل: العقود والوحدات والأقساط وسجل المتابعات التشغيلية.",
-            title: "ملف العميل",
+            description: "تفاصيل العقد وما يرتبط به من وحدات وأقساط ومتابعات ميدانية.",
+            title: "تفاصيل العقد",
           }
-        : pathname.startsWith("/contracts/")
-          ? {
-              description: "تفاصيل العقد وما يرتبط به من وحدات وأقساط ومتابعات ميدانية.",
-              title: "تفاصيل العقد",
-            }
-      : PAGE_TITLES[pathname] ?? {
-          description: "مساحة عمل داخلية لفريق التحصيل.",
-          title: "لوحة المتابعة",
-        };
+        : PAGE_TITLES[pathname] ?? {
+            description: "مساحة عمل داخلية لفريق التحصيل.",
+            title: "لوحة المتابعة",
+          };
   const primaryRole = getPrimaryRole(sessionUser);
 
   return (
@@ -81,19 +80,21 @@ export function Topbar({ lastImportAt, sessionUser }: TopbarProps) {
     >
       <div className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-primary/10 bg-primary/5 px-3 py-1 font-label text-label-lg uppercase tracking-[0.22em] text-primary/75">
-            Operations cockpit
+          <span className="rounded-full border border-primary/10 bg-primary/5 px-3 py-1 font-label text-label-lg tracking-[0.1em] text-primary/75">
+            غرفة العمليات التنفيذية
           </span>
         </div>
         <div>
-          <h1 className="font-display text-headline-sm font-bold tracking-[-0.02em] text-[hsl(var(--premium-ink))] lg:text-headline-md">{page.title}</h1>
+          <h1 className="font-display text-headline-sm font-bold tracking-[-0.02em] text-[hsl(var(--premium-ink))] lg:text-headline-md">
+            {page.title}
+          </h1>
           <p className="mt-2 max-w-3xl text-body-md leading-7 text-on-surface-variant">{page.description}</p>
         </div>
       </div>
       <div className="flex flex-col gap-3 lg:min-w-[340px] lg:max-w-[440px]">
         <LastDataUpdate lastImportAt={lastImportAt} />
         <div className="rounded-[24px] border border-[rgba(188,201,200,0.5)] bg-[rgba(247,249,248,0.92)] px-4 py-3 text-label-lg text-on-surface-variant">
-          <div className="text-label-lg uppercase tracking-[0.16em] text-primary/65">Session</div>
+          <div className="text-label-lg tracking-[0.1em] text-primary/65">الجلسة الحالية</div>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <span className="font-semibold text-on-surface">{sessionUser.email ?? sessionUser.fullName}</span>
             <span className="rounded-full bg-white px-2.5 py-1 text-label-md text-on-surface-variant">

@@ -1,15 +1,14 @@
-import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { DateRangeInputs } from "@/components/ui/date-range-inputs";
 import { ExportButton } from "@/components/ui/export-button";
 import { FilterBar } from "@/components/ui/filter-bar";
 import { PrintButton } from "@/components/ui/print-button";
 import { QueryPagination } from "@/components/ui/query-pagination";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { AgingReportTable } from "@/components/reports/aging-report-table";
 import { getRequiredSessionUser } from "@/lib/auth/get-session-user";
-import { requirePermission } from "@/lib/auth/permissions";
-import { formatEgyptDateTime, toEgyptDateString } from "@/lib/dates/egypt";
+import { hasPermission, requirePermission } from "@/lib/auth/permissions";
 import { formatCurrency } from "@/lib/formatting/currency";
-import { getAgingReport, type AgingReportItem } from "@/server/queries/reports/get-aging-report";
+import { getAgingReport } from "@/server/queries/reports/get-aging-report";
 
 export const dynamic = "force-dynamic";
 
@@ -17,41 +16,11 @@ type AgingReportPageProps = {
   searchParams?: Promise<{ endDate?: string; page?: string; pageSize?: string; projectId?: string; startDate?: string }>;
 };
 
-const columns: DataTableColumn<AgingReportItem>[] = [
-  { cell: (row) => row.customerName, header: "العميل" },
-  { cell: (row) => row.contractCode ?? "—", header: "العقد" },
-  { cell: (row) => row.projectName, header: "المشروع" },
-  { cell: (row) => formatDate(row.dueDate), header: "تاريخ الاستحقاق" },
-  { cell: (row) => formatCurrency(row.amountDue), header: "المستحق" },
-  { cell: (row) => formatCurrency(row.amountOutstanding), header: "المتبقي" },
-  { cell: (row) => `${row.delayDays} يوم`, header: "أيام التأخير" },
-  { cell: (row) => row.delayBucket, header: "فئة التأخير" },
-  {
-    cell: (row) => (row.lastFollowUpDate ? formatEgyptDateTime(row.lastFollowUpDate) : "—"),
-    header: "آخر متابعة",
-  },
-  {
-    cell: (row) => (
-      <div className="max-w-xs whitespace-pre-wrap text-body-md leading-6 text-on-surface line-clamp-2">
-        {row.lastFollowUpNote ?? "—"}
-      </div>
-    ),
-    header: "ملاحظة المتابعة",
-  },
-  {
-    cell: (row) => (
-      <div className="max-w-xs whitespace-pre-wrap text-body-md leading-6 text-on-surface line-clamp-2">
-        {row.lastCustomerResponse ?? "—"}
-      </div>
-    ),
-    header: "رد العميل",
-  },
-];
-
 export default async function AgingReportPage({ searchParams }: AgingReportPageProps) {
   const sessionUser = await getRequiredSessionUser();
   requirePermission(sessionUser, "reports.read");
   const filters = (await searchParams) ?? {};
+  const canManageFollowUps = hasPermission(sessionUser, "followUps.manageAny") || hasPermission(sessionUser, "followUps.manageOwn");
   const result = await getAgingReport({
     endDate: filters.endDate,
     page: coercePositiveNumber(filters.page, 1),
@@ -104,7 +73,7 @@ export default async function AgingReportPage({ searchParams }: AgingReportPageP
         ))}
       </div>
 
-      <DataTable caption="تقرير أعمار المديونية" columns={columns} data={result.items} getRowId={(row, index) => `${row.customerName}-${index}`} />
+      <AgingReportTable canManageFollowUps={canManageFollowUps} rows={result.items} />
 
       <QueryPagination
         currentPage={result.page}
@@ -120,8 +89,4 @@ export default async function AgingReportPage({ searchParams }: AgingReportPageP
 function coercePositiveNumber(value: string | undefined, fallback: number): number {
   const numericValue = Number(value);
   return Number.isFinite(numericValue) && numericValue > 0 ? Math.floor(numericValue) : fallback;
-}
-
-function formatDate(value: string | null): string {
-  return value ? toEgyptDateString(value) : "—";
 }

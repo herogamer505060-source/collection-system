@@ -35,11 +35,14 @@ export function DataTable<TData>({
       <div className="premium-scrollbar overflow-x-auto">
         <table className="min-w-full text-body-md">
           {caption ? <caption className="sr-only">{caption}</caption> : null}
-          <thead className="bg-[rgba(239,243,242,0.92)] text-on-surface-variant">
+          <thead className="bg-[rgba(239,243,242,0.96)] text-on-surface-variant">
             <tr>
               {columns.map((column, index) => (
                 <th
-                  className={cn("px-4 py-4 text-right text-label-lg font-semibold uppercase tracking-[0.14em]", column.headerClassName)}
+                  className={cn(
+                    "sticky top-0 z-10 px-4 py-4 text-right text-label-lg font-semibold leading-6 text-on-surface-variant backdrop-blur-sm",
+                    column.headerClassName,
+                  )}
                   key={`header-${index}`}
                   scope="col"
                 >
@@ -48,14 +51,14 @@ export function DataTable<TData>({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-outline-variant/[0.16] bg-white/55">
+          <tbody className="divide-y divide-outline-variant/[0.16] bg-white/60">
             {data.length > 0 ? (
               data.map((row, index) => {
                 const rowId = getRowId(row, index);
                 const isExpanded = expandedRowId === rowId;
                 return (
                   <Fragment key={rowId}>
-                    <tr className="align-top transition-colors duration-150 hover:bg-white/70">
+                    <tr className="align-top transition-colors duration-150 hover:bg-white/80">
                       {columns.map((column, columnIndex) => (
                         <td className={cn("px-4 py-4 text-on-surface", column.className)} key={columnIndex}>
                           {column.cell(row)}

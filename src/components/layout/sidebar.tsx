@@ -39,56 +39,56 @@ export function Sidebar({ sessionUser }: SidebarProps) {
   return (
     <aside
       aria-label={`Main navigation for ${sessionUser.fullName}`}
-      className="executive-panel executive-mesh premium-scrollbar flex h-full flex-col gap-6 overflow-y-auto px-4 py-5 sm:px-5 lg:sticky lg:top-0 lg:min-h-screen lg:px-6 lg:py-7"
+      className="executive-panel premium-scrollbar flex h-full flex-col gap-6 overflow-y-auto px-4 py-5 sm:px-5 lg:sticky lg:top-0 lg:min-h-screen lg:px-6 lg:py-7"
       data-sidebar
     >
-      <div className="space-y-4 rounded-[28px] border border-white/70 bg-white/75 p-5 backdrop-blur-sm">
+      <div className="space-y-4 rounded-[28px] border border-white/70 bg-white/80 p-5 backdrop-blur-sm">
         <div className="flex items-center gap-3">
           <div className="gradient-primary flex h-12 w-12 items-center justify-center rounded-2xl text-lg font-bold text-white shadow-lg shadow-primary/20">
             CS
           </div>
           <div className="min-w-0">
-            <p className="font-label text-label-lg uppercase tracking-[0.28em] text-primary/65">Collection System</p>
-            <h2 className="mt-1 font-display text-title-lg text-[hsl(var(--premium-ink))]">Executive Desk</h2>
+            <p className="font-label text-label-lg tracking-[0.12em] text-primary/65">منظومة التحصيل</p>
+            <h2 className="mt-1 font-display text-title-lg text-[hsl(var(--premium-ink))]">مكتب التشغيل التنفيذي</h2>
           </div>
         </div>
         <div className="rounded-2xl border border-[rgba(188,201,200,0.45)] bg-[rgba(245,248,247,0.86)] px-4 py-3">
-          <p className="text-label-lg text-on-surface-variant">المستخدم النشط</p>
+          <p className="text-label-lg text-on-surface-variant">المستخدم الحالي</p>
           <p className="mt-1 truncate text-body-md font-semibold text-on-surface">{sessionUser.fullName}</p>
         </div>
       </div>
 
       <div className="space-y-3">
         <div className="px-1">
-          <p className="font-label text-label-lg uppercase tracking-[0.24em] text-on-surface-variant/80">Navigation</p>
+          <p className="font-label text-label-lg tracking-[0.1em] text-on-surface-variant/80">أقسام النظام</p>
         </div>
         <nav className="space-y-2">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          {navItems.map((item) => {
+            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
-          return (
-            <Link
-              className={cn(
-                "group flex items-center gap-3 rounded-2xl px-4 py-3.5 text-body-md font-semibold transition-all duration-200",
-                isActive
-                  ? "executive-highlight border border-primary/15 text-primary shadow-[0_14px_34px_-24px_rgba(15,102,106,0.65)]"
-                  : "border border-transparent text-on-surface-variant hover:border-white/70 hover:bg-white/70 hover:text-on-surface",
-              )}
-              href={item.href}
-              key={item.href}
-            >
-              <span
+            return (
+              <Link
                 className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-2xl transition-colors duration-200",
-                  isActive ? "bg-white/85 text-primary" : "bg-surface-container-low text-on-surface-variant group-hover:bg-white",
+                  "group flex items-center gap-3 rounded-2xl px-4 py-3.5 text-body-md font-semibold transition-all duration-200",
+                  isActive
+                    ? "executive-highlight border border-primary/15 text-primary shadow-[0_14px_34px_-24px_rgba(15,102,106,0.65)]"
+                    : "border border-transparent text-on-surface-variant hover:border-white/70 hover:bg-white/70 hover:text-on-surface",
                 )}
+                href={item.href}
+                key={item.href}
               >
-                <NavIcon path={item.iconPath} />
-              </span>
-              <span className="flex-1">{item.label}</span>
-            </Link>
-          );
-        })}
+                <span
+                  className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-2xl transition-colors duration-200",
+                    isActive ? "bg-white/85 text-primary" : "bg-surface-container-low text-on-surface-variant group-hover:bg-white",
+                  )}
+                >
+                  <NavIcon path={item.iconPath} />
+                </span>
+                <span className="flex-1">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
       </div>
 

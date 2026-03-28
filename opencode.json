@@ -23,7 +23,55 @@
     "docs/ai/opencode-workflow.md",
     "docs/ai/frontend-quality-bar.md"
   ],
+  "provider": {
+    "google": {
+      "models": {
+        "gemini-2.5-flash-image": {
+          "name": "Nano Banana",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": false,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text",
+              "image"
+            ]
+          }
+        },
+        "gemini-3-pro-image-preview": {
+          "name": "Nano Banana Pro",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": false,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text",
+              "image"
+            ]
+          }
+        }
+      }
+    }
+  },
   "mcp": {
+    "stitch": {
+      "type": "remote",
+      "url": "https://stitch.googleapis.com/mcp",
+      "enabled": true,
+      "headers": {
+        "X-Goog-Api-Key": "{env:STITCH_API_KEY}"
+      },
+      "oauth": false,
+      "timeout": 300000
+    },
     "supabase": {
       "type": "remote",
       "url": "https://mcp.supabase.com/mcp?project_ref=quylcgozipvhkztnxver&features=database,development,debugging,docs",

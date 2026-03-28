@@ -10,7 +10,10 @@ import {
 export type AgingReportItem = {
   amountDue: number;
   amountOutstanding: number;
+  collectorUserId: string | null;
   contractCode: string | null;
+  contractId: string | null;
+  customerId: string | null;
   customerName: string;
   delayBucket: string;
   delayDays: number;
@@ -39,7 +42,7 @@ export async function getAgingReport(input: ReportQueryInput): Promise<AgingRepo
     .filter((installment) => installment.amount_outstanding > 0)
     .map((installment) => {
       const contract = context.contractById.get(installment.contract_id);
-      const customerId = contract?.customer_id;
+      const customerId = contract?.customer_id ?? null;
       const latestFollowUp = customerId
         ? [...(context.followUpsByCustomer.get(customerId) ?? [])].sort((left, right) =>
             right.follow_up_date.localeCompare(left.follow_up_date),
@@ -64,7 +67,10 @@ export async function getAgingReport(input: ReportQueryInput): Promise<AgingRepo
       return {
         amountDue: installment.amount_due,
         amountOutstanding: installment.amount_outstanding,
+        collectorUserId: contract?.collector_user_id ?? null,
         contractCode: contract?.contract_code ?? null,
+        contractId: contract?.id ?? null,
+        customerId,
         customerName,
         delayBucket: AGING_BUCKET_LABELS[bucket] ?? bucket,
         delayDays: installment.delay_days,
