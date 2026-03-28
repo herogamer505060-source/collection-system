@@ -15,12 +15,14 @@ import {
 export type GetInstallmentsListInput = {
   contractId?: string;
   customerId?: string;
+  endDate?: string;
   page?: number;
   pageSize?: number;
   paymentStatus?: string;
   projectId?: string;
   search?: string;
   sessionUser: SessionUser;
+  startDate?: string;
 };
 
 export type InstallmentListItem = {
@@ -99,6 +101,8 @@ export async function getInstallmentsList(
   const normalizedSearchValue = normalizeCustomerName(input.search);
   const filteredInstallments = data.installments
     .filter((installment) => visibleContractIds.has(installment.contract_id))
+    .filter((installment) => (input.startDate ? installment.due_date >= input.startDate : true))
+    .filter((installment) => (input.endDate ? installment.due_date <= input.endDate : true))
     .filter((installment) => (input.paymentStatus ? installment.payment_status === input.paymentStatus : true))
     .map((installment) => {
       const contract = contractById.get(installment.contract_id);
@@ -110,7 +114,9 @@ export async function getInstallmentsList(
         contractCode: contract?.contract_code ?? null,
         contractId: installment.contract_id,
         customerId: contract?.customer_id ?? "",
-        customerName: contract ? customerById.get(contract.customer_id)?.customer_name ?? contract.customer_id : "",
+        customerName: contract
+          ? customerById.get(contract.customer_id)?.customer_name ?? contract.customer_id
+          : "",
         delayDays: installment.delay_days,
         dueDate: installment.due_date,
         installmentCode: installment.installment_code,
@@ -133,10 +139,10 @@ export async function getInstallmentsList(
       return (
         (normalizedSearchValue
           ? normalizeCustomerName(installment.customerName)?.includes(normalizedSearchValue)
-          : installment.customerName.toLowerCase().includes(searchValue!)) ||
-        installment.contractCode?.toLowerCase().includes(searchValue!) ||
-        installment.installmentCode?.toLowerCase().includes(searchValue!) ||
-        installment.unitCodes.some((unitCode) => unitCode.toLowerCase().includes(searchValue!))
+          : installment.customerName.toLowerCase().includes(searchValue)) ||
+        installment.contractCode?.toLowerCase().includes(searchValue) ||
+        installment.installmentCode?.toLowerCase().includes(searchValue) ||
+        installment.unitCodes.some((unitCode) => unitCode.toLowerCase().includes(searchValue))
       );
     })
     .sort((left, right) => left.dueDate.localeCompare(right.dueDate));

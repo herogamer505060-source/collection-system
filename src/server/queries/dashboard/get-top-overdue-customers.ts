@@ -25,9 +25,11 @@ type GetTopOverdueCustomersDependencies = {
 
 export async function getTopOverdueCustomers(
   input: {
+    endDate?: string;
     limit?: number;
     projectId?: string;
     sessionUser: SessionUser;
+    startDate?: string;
   },
   dependencies: GetTopOverdueCustomersDependencies = { loadReadModelData },
 ): Promise<TopOverdueCustomer[]> {
@@ -53,7 +55,21 @@ export async function getTopOverdueCustomers(
   const topCustomers = Array.from(visibleContractsByCustomer.entries())
     .map(([customerId, contracts]) => {
       const overdueInstallments = contracts.flatMap((contract) =>
-        (installmentsByContract.get(contract.id) ?? []).filter((installment) => installment.payment_status === "overdue"),
+        (installmentsByContract.get(contract.id) ?? []).filter((installment) => {
+          if (installment.payment_status !== "overdue") {
+            return false;
+          }
+
+          if (input.startDate && installment.due_date < input.startDate) {
+            return false;
+          }
+
+          if (input.endDate && installment.due_date > input.endDate) {
+            return false;
+          }
+
+          return true;
+        }),
       );
 
       if (overdueInstallments.length === 0) {
@@ -98,10 +114,7 @@ export async function getTopOverdueCustomers(
         customerName: customerById.get(customerId)?.customer_name ?? customerId,
         lastFollowUpDate: lastFollowUpDate ? lastFollowUpDate.slice(0, 10) : null,
         projectName: projectNames.length === 1 ? projectNames[0] : "متعدد المشروعات",
-        totalOverdue: overdueInstallments.reduce(
-          (sum, installment) => sum + installment.amount_outstanding,
-          0,
-        ),
+        totalOverdue: overdueInstallments.reduce((sum, installment) => sum + installment.amount_outstanding, 0),
       } satisfies TopOverdueCustomer;
     })
     .filter((row): row is TopOverdueCustomer => Boolean(row))

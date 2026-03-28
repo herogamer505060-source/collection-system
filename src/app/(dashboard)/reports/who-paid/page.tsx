@@ -1,4 +1,5 @@
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
+import { DateRangeInputs } from "@/components/ui/date-range-inputs";
 import { ExportButton } from "@/components/ui/export-button";
 import { FilterBar } from "@/components/ui/filter-bar";
 import { PrintButton } from "@/components/ui/print-button";
@@ -12,7 +13,7 @@ import { getWhoPaidReport, type WhoPaidReportItem } from "@/server/queries/repor
 export const dynamic = "force-dynamic";
 
 type WhoPaidReportPageProps = {
-  searchParams?: Promise<{ page?: string; pageSize?: string; projectId?: string }>;
+  searchParams?: Promise<{ endDate?: string; page?: string; pageSize?: string; projectId?: string; startDate?: string }>;
 };
 
 const columns: DataTableColumn<WhoPaidReportItem>[] = [
@@ -32,10 +33,12 @@ export default async function WhoPaidReportPage({ searchParams }: WhoPaidReportP
   requirePermission(sessionUser, "reports.read");
   const filters = (await searchParams) ?? {};
   const result = await getWhoPaidReport({
+    endDate: filters.endDate,
     page: coercePositiveNumber(filters.page, 1),
     pageSize: coercePositiveNumber(filters.pageSize, 50),
     projectId: filters.projectId,
     sessionUser,
+    startDate: filters.startDate,
   });
 
   return (
@@ -64,6 +67,7 @@ export default async function WhoPaidReportPage({ searchParams }: WhoPaidReportP
               </option>
             ))}
           </select>
+          <DateRangeInputs endDateValue={result.filters.endDate} startDateValue={result.filters.startDate} />
           <button className="gradient-primary rounded-xl px-4 py-3 text-body-md font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:opacity-90" type="submit">
             تطبيق
           </button>

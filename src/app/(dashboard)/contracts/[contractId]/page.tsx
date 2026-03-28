@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { ContractDetailOverview } from "@/components/contracts/contract-detail-overview";
+import { ContractDocumentsSection } from "@/components/contracts/contract-documents-section";
 import { InstallmentsTable } from "@/components/installments/installments-table";
 import { StatusBadge } from "@/components/ui/status-badge";
 import {
@@ -13,6 +14,7 @@ import { getRequiredSessionUser } from "@/lib/auth/get-session-user";
 import { formatEgyptDateTime } from "@/lib/dates/egypt";
 import { formatCurrency } from "@/lib/formatting/currency";
 import { getContractDetail } from "@/server/queries/contracts/get-contract-detail";
+import { getContractDocuments } from "@/server/queries/contracts/get-contract-documents";
 import { loadReadModelData } from "@/server/queries/read-model-helpers";
 
 export const dynamic = "force-dynamic";
@@ -36,6 +38,7 @@ export default async function ContractDetailPage({ params }: ContractDetailPageP
     notFound();
   }
 
+  const documents = await getContractDocuments({ contractId, sessionUser });
   const sharedUnitCodes = detail.units.map((unit) => unit.unitCode);
 
   return (
@@ -117,6 +120,16 @@ export default async function ContractDetailPage({ params }: ContractDetailPageP
             </div>
           )}
         </div>
+      </section>
+
+      <section className="space-y-4 rounded-2xl bg-surface-container-lowest p-5 ambient-shadow">
+        <div>
+          <h3 className="font-display text-title-lg text-on-surface">المستندات المرفقة</h3>
+          <p className="mt-2 text-body-md text-on-surface-variant">
+            ارفع نسخ PDF للعقد أو الملحقات أو الإيصالات وشاركها مع الإدارة عند الحاجة.
+          </p>
+        </div>
+        <ContractDocumentsSection canUpload={canEdit} contractId={contractId} documents={documents} />
       </section>
     </section>
   );

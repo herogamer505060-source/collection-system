@@ -14,7 +14,6 @@ import {
   type AggregateTotals,
   type CustomerPaymentStatus,
   type QueryFilters,
-  type ReadModelData,
 } from "@/server/queries/read-model-helpers";
 
 export type CustomersListRow = {
@@ -30,10 +29,12 @@ export type CustomersListRow = {
 };
 
 export type GetCustomersListInput = QueryFilters & {
+  endDate?: string;
   page?: number;
   pageSize?: number;
   paymentStatus?: "all" | CustomerPaymentStatus;
   sessionUser: SessionUser;
+  startDate?: string;
 };
 
 export type GetCustomersListResult = {
@@ -70,15 +71,33 @@ export async function getCustomersList(
   const customerRows = data.customers.filter(
     (customer) => customerIds.has(customer.id) && matchesArabicSearch(customer, input.search),
   );
+  const projectById = buildProjectById(data.projects);
+  const filteredInstallmentsByContract = buildInstallmentsByContract(
+    data.installments
+      .filter((installment) => (input.startDate ? installment.due_date >= input.startDate : true))
+      .filter((installment) => (input.endDate ? installment.due_date <= input.endDate : true)),
+  );
+  const hasDateRange = Boolean(input.startDate || input.endDate);
   const customerListRows = customerRows
-    .map((customer) => buildCustomerListRow(customer, filteredContracts, data))
-    .filter((row) => (input.paymentStatus && input.paymentStatus !== "all" ? row.paymentStatus === input.paymentStatus : true))
+    .map((customer) =>
+      buildCustomerListRow(customer, filteredContracts, {
+        installmentsByContract: filteredInstallmentsByContract,
+        projectById,
+      }),
+    )
+    .filter((row) => !hasDateRange || hasScopedActivity(row.totals))
+    .filter((row) =>
+      input.paymentStatus && input.paymentStatus !== "all" ? row.paymentStatus === input.paymentStatus : true,
+    )
     .sort((left, right) => {
       if (left.paymentStatus !== right.paymentStatus) {
         return getCustomerStatusPriority(left.paymentStatus) - getCustomerStatusPriority(right.paymentStatus);
       }
 
-      return right.totals.amountOutstanding - left.totals.amountOutstanding || left.customerName.localeCompare(right.customerName, "ar");
+      return (
+        right.totals.amountOutstanding - left.totals.amountOutstanding ||
+        left.customerName.localeCompare(right.customerName, "ar")
+      );
     });
   const pagination = paginate(customerListRows, input.page, input.pageSize);
 
@@ -101,18 +120,19 @@ export async function getCustomersList(
 function buildCustomerListRow(
   customer: Tables<"customers">,
   contracts: Tables<"contracts">[],
-  data: ReadModelData,
+  context: {
+    installmentsByContract: Map<string, Tables<"installments">[]>;
+    projectById: Map<string, Tables<"projects">>;
+  },
 ): CustomersListRow {
-  const projectById = buildProjectById(data.projects);
-  const installmentsByContract = buildInstallmentsByContract(data.installments);
   const customerContracts = contracts.filter((contract) => contract.customer_id === customer.id);
   const customerInstallments = customerContracts.flatMap(
-    (contract) => installmentsByContract.get(contract.id) ?? [],
+    (contract) => context.installmentsByContract.get(contract.id) ?? [],
   );
   const projectPairs = Array.from(new Set(customerContracts.map((contract) => contract.project_id)))
     .map((projectId) => ({
       projectId,
-      projectName: projectById.get(projectId)?.name_ar ?? projectId,
+      projectName: context.projectById.get(projectId)?.name_ar ?? projectId,
     }))
     .sort((left, right) => left.projectName.localeCompare(right.projectName, "ar"));
 
@@ -141,6 +161,15 @@ function buildProjectOptions(
       label: projectById.get(projectId)?.name_ar ?? projectId,
     }))
     .sort((left, right) => left.label.localeCompare(right.label, "ar"));
+}
+
+function hasScopedActivity(totals: AggregateTotals): boolean {
+  return (
+    totals.amountDue > 0 ||
+    totals.amountCollected > 0 ||
+    totals.amountOutstanding > 0 ||
+    totals.penaltyAmount > 0
+  );
 }
 
 function getCustomerStatusPriority(status: CustomerPaymentStatus): number {

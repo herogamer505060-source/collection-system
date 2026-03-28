@@ -89,10 +89,12 @@ async function loadExportRows(
       const result = await getCustomersList({
         page: 1,
         pageSize: EXPORT_PAGE_SIZE,
+        endDate: filters.endDate,
         paymentStatus: coerceCustomerStatus(filters.paymentStatus),
         projectId: filters.projectId,
         search: filters.search,
         sessionUser,
+        startDate: filters.startDate,
       });
 
       return result.items.map((row) => ({
@@ -127,10 +129,12 @@ async function loadExportRows(
       const result = await getInstallmentsList({
         page: 1,
         pageSize: EXPORT_PAGE_SIZE,
+        endDate: filters.endDate,
         paymentStatus: filters.paymentStatus,
         projectId: filters.projectId,
         search: filters.search,
         sessionUser,
+        startDate: filters.startDate,
       });
 
       return result.items.map((row) => ({
@@ -189,34 +193,90 @@ async function loadExportRows(
       }));
     }
     case "aging": {
-      const result = await getAgingReport({ page: 1, pageSize: EXPORT_PAGE_SIZE, projectId: filters.projectId, sessionUser });
+      const result = await getAgingReport({
+        endDate: filters.endDate,
+        page: 1,
+        pageSize: EXPORT_PAGE_SIZE,
+        projectId: filters.projectId,
+        sessionUser,
+        startDate: filters.startDate,
+      });
       return result.items;
     }
     case "who-paid": {
-      const result = await getWhoPaidReport({ page: 1, pageSize: EXPORT_PAGE_SIZE, projectId: filters.projectId, sessionUser });
+      const result = await getWhoPaidReport({
+        endDate: filters.endDate,
+        page: 1,
+        pageSize: EXPORT_PAGE_SIZE,
+        projectId: filters.projectId,
+        sessionUser,
+        startDate: filters.startDate,
+      });
       return result.items;
     }
     case "overdue": {
-      const result = await getOverdueReport({ page: 1, pageSize: EXPORT_PAGE_SIZE, projectId: filters.projectId, sessionUser });
-      return result.items.map((row) => ({ ...row, dueDate: formatDate(row.dueDate) }));
+      const result = await getOverdueReport({
+        endDate: filters.endDate,
+        page: 1,
+        pageSize: EXPORT_PAGE_SIZE,
+        projectId: filters.projectId,
+        sessionUser,
+        startDate: filters.startDate,
+      });
+      return result.items.map((row) => ({
+        ...row,
+        dueDate: formatDate(row.dueDate),
+        lastCustomerResponse: row.lastCustomerResponse ?? "",
+        lastFollowUpDate: formatDateTime(row.lastFollowUpDate),
+        lastFollowUpNote: row.lastFollowUpNote ?? "",
+        nextActionDate: formatDate(row.nextActionDate),
+        promiseDate: formatDate(row.promiseDate),
+      }));
     }
     case "penalties": {
-      const result = await getPenaltiesReport({ page: 1, pageSize: EXPORT_PAGE_SIZE, projectId: filters.projectId, sessionUser });
+      const result = await getPenaltiesReport({
+        endDate: filters.endDate,
+        page: 1,
+        pageSize: EXPORT_PAGE_SIZE,
+        projectId: filters.projectId,
+        sessionUser,
+        startDate: filters.startDate,
+      });
       return result.items;
     }
     case "project-status": {
-      const result = await getProjectStatusReport({ page: 1, pageSize: EXPORT_PAGE_SIZE, sessionUser });
+      const result = await getProjectStatusReport({
+        endDate: filters.endDate,
+        page: 1,
+        pageSize: EXPORT_PAGE_SIZE,
+        sessionUser,
+        startDate: filters.startDate,
+      });
       return result.items.map((row) => ({
         ...row,
         collectionPercentage: `${row.collectionPercentage.toFixed(2)}%`,
       }));
     }
     case "collection-notes": {
-      const result = await getCollectionNotesReport({ page: 1, pageSize: EXPORT_PAGE_SIZE, projectId: filters.projectId, sessionUser });
+      const result = await getCollectionNotesReport({
+        endDate: filters.endDate,
+        page: 1,
+        pageSize: EXPORT_PAGE_SIZE,
+        projectId: filters.projectId,
+        sessionUser,
+        startDate: filters.startDate,
+      });
       return result.items.map((row) => ({ ...row, followUpDate: formatDateTime(row.followUpDate), customerResponse: row.customerResponse ?? "" }));
     }
     case "promises": {
-      const result = await getPromisesReport({ page: 1, pageSize: EXPORT_PAGE_SIZE, projectId: filters.projectId, sessionUser });
+      const result = await getPromisesReport({
+        endDate: filters.endDate,
+        page: 1,
+        pageSize: EXPORT_PAGE_SIZE,
+        projectId: filters.projectId,
+        sessionUser,
+        startDate: filters.startDate,
+      });
       return result.items.map((row) => ({
         ...row,
         followUpStatus: getFollowUpStatusLabel(row.followUpStatus),

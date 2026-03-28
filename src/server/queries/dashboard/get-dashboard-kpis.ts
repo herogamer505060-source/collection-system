@@ -45,8 +45,10 @@ type GetDashboardKpisDependencies = {
 
 export async function getDashboardKpis(
   input: {
+    endDate?: string;
     projectId?: string;
     sessionUser: SessionUser;
+    startDate?: string;
   },
   dependencies: GetDashboardKpisDependencies = {
     getLastImportAt,
@@ -62,15 +64,17 @@ export async function getDashboardKpis(
     sessionUser: input.sessionUser,
   });
   const visibleContracts = filterContractsByScope(input.sessionUser, data.contracts, input.projectId);
-  const installmentsByContract = buildInstallmentsByContract(data.installments);
-  const visibleInstallments = visibleContracts.flatMap(
-    (contract) => installmentsByContract.get(contract.id) ?? [],
-  );
+  const allInstallmentsByContract = buildInstallmentsByContract(data.installments);
+  const visibleInstallments = visibleContracts
+    .flatMap((contract) => allInstallmentsByContract.get(contract.id) ?? [])
+    .filter((installment) => (input.startDate ? installment.due_date >= input.startDate : true))
+    .filter((installment) => (input.endDate ? installment.due_date <= input.endDate : true));
+  const visibleInstallmentsByContract = buildInstallmentsByContract(visibleInstallments);
   const customerInstallments = new Map<string, typeof visibleInstallments>();
 
   for (const contract of visibleContracts) {
     const nextInstallments = customerInstallments.get(contract.customer_id) ?? [];
-    nextInstallments.push(...(installmentsByContract.get(contract.id) ?? []));
+    nextInstallments.push(...(visibleInstallmentsByContract.get(contract.id) ?? []));
     customerInstallments.set(contract.customer_id, nextInstallments);
   }
 
@@ -98,7 +102,12 @@ export async function getDashboardKpis(
   });
 
   const [topOverdueCustomers, recentFollowUps, lastImportAt] = await Promise.all([
-    dependencies.getTopOverdueCustomers({ projectId: input.projectId, sessionUser: input.sessionUser }),
+    dependencies.getTopOverdueCustomers({
+      endDate: input.endDate,
+      projectId: input.projectId,
+      sessionUser: input.sessionUser,
+      startDate: input.startDate,
+    }),
     dependencies.getRecentFollowUps({ projectId: input.projectId, sessionUser: input.sessionUser }),
     dependencies.getLastImportAt(),
   ]);

@@ -8,9 +8,9 @@ import {
 } from "@/server/queries/read-model-helpers";
 
 type ProjectChartItem = {
-  projectName: string;
   collected: number;
   outstanding: number;
+  projectName: string;
 };
 
 type AgingChartItem = {
@@ -31,8 +31,10 @@ const BUCKET_LABELS: Record<string, string> = {
 const BUCKET_ORDER = ["not_due", "1_30", "31_60", "61_90", "90_plus"] as const;
 
 export async function getDashboardCharts(input: {
+  endDate?: string;
   projectId?: string;
   sessionUser: SessionUser;
+  startDate?: string;
 }): Promise<{
   byAging: AgingChartItem[];
   byProject: ProjectChartItem[];
@@ -46,6 +48,7 @@ export async function getDashboardCharts(input: {
   const projectById = buildProjectById(data.projects);
   const visibleContracts = filterContractsByScope(input.sessionUser, data.contracts, input.projectId);
   const visibleContractIds = new Set(visibleContracts.map((contract) => contract.id));
+  const contractById = new Map(visibleContracts.map((contract) => [contract.id, contract]));
   const byProjectMap = new Map<string, ProjectChartItem>();
   const byAgingMap = new Map<string, AgingChartItem>();
 
@@ -62,7 +65,15 @@ export async function getDashboardCharts(input: {
       continue;
     }
 
-    const contract = visibleContracts.find((item) => item.id === installment.contract_id);
+    if (input.startDate && installment.due_date < input.startDate) {
+      continue;
+    }
+
+    if (input.endDate && installment.due_date > input.endDate) {
+      continue;
+    }
+
+    const contract = contractById.get(installment.contract_id);
 
     if (!contract) {
       continue;
@@ -93,7 +104,13 @@ export async function getDashboardCharts(input: {
   return {
     byAging: BUCKET_ORDER.map((bucket) => byAgingMap.get(bucket))
       .filter((item): item is AgingChartItem => Boolean(item))
-      .sort((left, right) => BUCKET_ORDER.indexOf(left.bucket as (typeof BUCKET_ORDER)[number]) - BUCKET_ORDER.indexOf(right.bucket as (typeof BUCKET_ORDER)[number])),
-    byProject: Array.from(byProjectMap.values()).sort((left, right) => left.projectName.localeCompare(right.projectName, "ar")),
+      .sort(
+        (left, right) =>
+          BUCKET_ORDER.indexOf(left.bucket as (typeof BUCKET_ORDER)[number]) -
+          BUCKET_ORDER.indexOf(right.bucket as (typeof BUCKET_ORDER)[number]),
+      ),
+    byProject: Array.from(byProjectMap.values())
+      .filter((item) => item.collected > 0 || item.outstanding > 0)
+      .sort((left, right) => left.projectName.localeCompare(right.projectName, "ar")),
   };
 }

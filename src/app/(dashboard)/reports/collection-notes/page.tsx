@@ -1,4 +1,5 @@
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
+import { DateRangeInputs } from "@/components/ui/date-range-inputs";
 import { ExportButton } from "@/components/ui/export-button";
 import { FilterBar } from "@/components/ui/filter-bar";
 import { PrintButton } from "@/components/ui/print-button";
@@ -15,7 +16,7 @@ import {
 export const dynamic = "force-dynamic";
 
 type CollectionNotesReportPageProps = {
-  searchParams?: Promise<{ page?: string; pageSize?: string; projectId?: string }>;
+  searchParams?: Promise<{ endDate?: string; page?: string; pageSize?: string; projectId?: string; startDate?: string }>;
 };
 
 const columns: DataTableColumn<CollectionNotesReportItem>[] = [
@@ -32,10 +33,12 @@ export default async function CollectionNotesReportPage({ searchParams }: Collec
   requirePermission(sessionUser, "reports.read");
   const filters = (await searchParams) ?? {};
   const result = await getCollectionNotesReport({
+    endDate: filters.endDate,
     page: coercePositiveNumber(filters.page, 1),
     pageSize: coercePositiveNumber(filters.pageSize, 50),
     projectId: filters.projectId,
     sessionUser,
+    startDate: filters.startDate,
   });
 
   return (
@@ -64,6 +67,7 @@ export default async function CollectionNotesReportPage({ searchParams }: Collec
               </option>
             ))}
           </select>
+          <DateRangeInputs endDateValue={result.filters.endDate} startDateValue={result.filters.startDate} />
           <button className="gradient-primary rounded-xl px-4 py-3 text-body-md font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:opacity-90" type="submit">
             تطبيق
           </button>

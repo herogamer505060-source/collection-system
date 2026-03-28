@@ -16,7 +16,7 @@ export type ProjectStatusReportResult = PaginatedReportResult<ProjectStatusRepor
 export async function getProjectStatusReport(
   input: Omit<ReportQueryInput, "projectId">,
 ): Promise<ProjectStatusReportResult> {
-  const context = await getReportContext({ sessionUser: input.sessionUser });
+  const context = await getReportContext({ endDate: input.endDate, sessionUser: input.sessionUser, startDate: input.startDate });
   const installmentsByProject = new Map<string, typeof context.visibleInstallments>();
   const contractCounts = new Map<string, number>();
 
@@ -50,5 +50,5 @@ export async function getProjectStatusReport(
     })
     .sort((left, right) => left.projectName.localeCompare(right.projectName, "ar"));
 
-  return buildPaginatedReportResult(items, { page: input.page, pageSize: input.pageSize }, context.projectOptions, { projectId: null });
+  return buildPaginatedReportResult(items, { endDate: input.endDate, page: input.page, pageSize: input.pageSize, startDate: input.startDate }, context.projectOptions, { projectId: null });
 }

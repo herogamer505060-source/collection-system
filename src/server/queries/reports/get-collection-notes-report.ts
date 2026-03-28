@@ -20,7 +20,25 @@ export async function getCollectionNotesReport(
   input: ReportQueryInput,
 ): Promise<CollectionNotesReportResult> {
   const context = await getReportContext(input);
-  const items = Array.from(context.followUpsByCustomer.entries())
+  const followUpsByCustomer = new Map<string, typeof context.accessibleFollowUps>();
+
+  for (const followUp of context.accessibleFollowUps) {
+    const followUpDate = followUp.follow_up_date.slice(0, 10);
+
+    if (input.startDate && followUpDate < input.startDate) {
+      continue;
+    }
+
+    if (input.endDate && followUpDate > input.endDate) {
+      continue;
+    }
+
+    const nextFollowUps = followUpsByCustomer.get(followUp.customer_id) ?? [];
+    nextFollowUps.push(followUp);
+    followUpsByCustomer.set(followUp.customer_id, nextFollowUps);
+  }
+
+  const items = Array.from(followUpsByCustomer.entries())
     .map(([customerId, followUps]) => {
       const latestFollowUp = [...followUps].sort((left, right) => right.follow_up_date.localeCompare(left.follow_up_date))[0];
 

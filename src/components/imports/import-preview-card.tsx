@@ -19,6 +19,15 @@ export function ImportPreviewCard({ batchType, preview }: ImportPreviewCardProps
   const router = useRouter();
   const [feedback, setFeedback] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const totalNew =
+    (preview.changeSummary.customersToCreate ?? 0) +
+    (preview.changeSummary.contractsToCreate ?? 0) +
+    (preview.changeSummary.installmentsToCreate ?? 0) +
+    (preview.changeSummary.unitsToCreate ?? 0);
+  const totalUpdated =
+    (preview.changeSummary.contractsToUpdate ?? 0) +
+    (preview.changeSummary.installmentsToUpdate ?? 0) +
+    (preview.changeSummary.unitsToUpdate ?? 0);
 
   function runAction(action: "approve" | "reject") {
     startTransition(async () => {
@@ -115,9 +124,12 @@ export function ImportPreviewCard({ batchType, preview }: ImportPreviewCardProps
 
       <div className="rounded-xl bg-surface-container-low p-4">
         <h4 className="font-display text-title-lg text-on-surface">ملخص التغييرات المتوقعة</h4>
+        <p className="mt-2 text-body-md text-on-surface-variant">
+          ستُضاف {formatInteger(totalNew)} سجلات جديدة وتُحدَّث {formatInteger(totalUpdated)} سجلات موجودة.
+        </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {Object.entries(preview.changeSummary).map(([key, value]) => (
-            <StatusBadge key={key} variant="neutral">
+            <StatusBadge key={key} variant={getChangeSummaryVariant(key)}>
               {formatPreviewChangeKey(key)}: {formatInteger(value ?? 0)}
             </StatusBadge>
           ))}
@@ -136,6 +148,18 @@ export function ImportPreviewCard({ batchType, preview }: ImportPreviewCardProps
       />
     </section>
   );
+}
+
+function getChangeSummaryVariant(key: string): "info" | "neutral" | "success" {
+  if (key.endsWith("ToCreate")) {
+    return "success";
+  }
+
+  if (key.endsWith("ToUpdate")) {
+    return "info";
+  }
+
+  return "neutral";
 }
 
 function PreviewMetric({ label, value }: { label: string; value: number }) {

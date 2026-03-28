@@ -17,10 +17,12 @@ import {
 } from "../read-model-helpers";
 
 export type ReportQueryInput = {
+  endDate?: string;
   page?: number;
   pageSize?: number;
   projectId?: string;
   sessionUser: SessionUser;
+  startDate?: string;
 };
 
 export type ReportProjectOption = {
@@ -30,9 +32,11 @@ export type ReportProjectOption = {
 
 export type PaginatedReportResult<TItem, TFilters extends object = object> = {
   filters: TFilters & {
+    endDate: string | null;
     page: number;
     pageSize: number;
     projectId: string | null;
+    startDate: string | null;
   };
   items: TItem[];
   page: number;
@@ -67,7 +71,7 @@ export const AGING_BUCKET_LABELS: Record<string, string> = {
 export const AGING_BUCKET_ORDER = ["not_due", "1_30", "31_60", "61_90", "90_plus"] as const;
 
 export async function getReportContext(
-  input: Pick<ReportQueryInput, "projectId" | "sessionUser">,
+  input: Pick<ReportQueryInput, "projectId" | "sessionUser" | "startDate" | "endDate">,
 ): Promise<ReportContext> {
   requirePermission(input.sessionUser, "reports.read");
 
@@ -83,7 +87,10 @@ export async function getReportContext(
   const contractsByCustomer = groupContractsByCustomer(visibleContracts);
   const visibleContractIds = new Set(visibleContracts.map((contract) => contract.id));
   const visibleCustomerIds = new Set(visibleContracts.map((contract) => contract.customer_id));
-  const visibleInstallments = data.installments.filter((installment) => visibleContractIds.has(installment.contract_id));
+  const visibleInstallments = data.installments
+    .filter((installment) => visibleContractIds.has(installment.contract_id))
+    .filter((installment) => (input.startDate ? installment.due_date >= input.startDate : true))
+    .filter((installment) => (input.endDate ? installment.due_date <= input.endDate : true));
   const installmentsByContract = buildInstallmentsByContract(visibleInstallments);
   const customerProjectNames = buildCustomerProjectNames(visibleContracts, projectById);
   const projectOptions = buildProjectOptions(visibleContracts, projectById);
@@ -127,7 +134,7 @@ export async function getReportContext(
 
 export function buildPaginatedReportResult<TItem, TFilters extends Record<string, unknown>>(
   items: TItem[],
-  input: Pick<ReportQueryInput, "page" | "pageSize" | "projectId">,
+  input: Pick<ReportQueryInput, "page" | "pageSize" | "projectId" | "startDate" | "endDate">,
   projectOptions: ReportProjectOption[],
   extraFilters: TFilters,
 ): PaginatedReportResult<TItem, TFilters> {
@@ -136,9 +143,11 @@ export function buildPaginatedReportResult<TItem, TFilters extends Record<string
   return {
     filters: {
       ...extraFilters,
+      endDate: input.endDate ?? null,
       page: pagination.page,
       pageSize: pagination.pageSize,
       projectId: input.projectId ?? null,
+      startDate: input.startDate ?? null,
     },
     items: pagination.items,
     page: pagination.page,

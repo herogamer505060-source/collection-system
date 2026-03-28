@@ -5,11 +5,6 @@ import {
   handleFollowUpServiceError,
   updateFollowUp,
 } from "@/server/services/follow-ups-service";
-import { parseUUIDParam } from "@/lib/validation/uuid";
-
-function isInvalidParam(error: unknown): boolean {
-  return error instanceof Error && (error as Error & { code?: string }).code === "INVALID_PARAM";
-}
 
 export async function PATCH(
   request: Request,
@@ -18,8 +13,12 @@ export async function PATCH(
   try {
     const sessionUser = await getRequiredSessionUser();
     const payload = await request.json();
-    const { followUpId: rawFollowUpId } = await context.params;
-    const followUpId = parseUUIDParam(rawFollowUpId, "followUpId");
+    const { followUpId } = await context.params;
+
+    if (!followUpId?.trim()) {
+      return Response.json({ error: { code: "invalid_param", message: "معرّف المتابعة غير صالح" } }, { status: 400 });
+    }
+
     const followUp = await updateFollowUp({ followUpId, payload, sessionUser });
 
     recordAuditEvent({
@@ -41,9 +40,6 @@ export async function PATCH(
         error: error instanceof Error ? error.message : "unknown_error",
       },
     });
-    if (isInvalidParam(error)) {
-      return Response.json({ error: { code: "invalid_param", message: "معرّف المتابعة غير صالح" } }, { status: 400 });
-    }
     return handleFollowUpServiceError(error);
   }
 }
@@ -54,8 +50,12 @@ export async function DELETE(
 ) {
   try {
     const sessionUser = await getRequiredSessionUser();
-    const { followUpId: rawFollowUpId } = await context.params;
-    const followUpId = parseUUIDParam(rawFollowUpId, "followUpId");
+    const { followUpId } = await context.params;
+
+    if (!followUpId?.trim()) {
+      return Response.json({ error: { code: "invalid_param", message: "معرّف المتابعة غير صالح" } }, { status: 400 });
+    }
+
     const result = await deleteFollowUp({ followUpId, sessionUser });
 
     recordAuditEvent({
@@ -72,9 +72,6 @@ export async function DELETE(
       severity: "warn",
       metadata: { error: error instanceof Error ? error.message : "unknown_error" },
     });
-    if (isInvalidParam(error)) {
-      return Response.json({ error: { code: "invalid_param", message: "معرّف المتابعة غير صالح" } }, { status: 400 });
-    }
     return handleFollowUpServiceError(error);
   }
 }

@@ -117,8 +117,8 @@ export function ImportBatchSummary({ batch, canManage }: ImportBatchSummaryProps
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard label="إجمالي الصفوف" value={batch.counts.rowsTotal} />
         <MetricCard label="صفوف صالحة" value={batch.counts.rowsValid} />
-        <MetricCard label="صفوف مستوردة" value={batch.counts.rowsImported} />
-        <MetricCard label="صفوف محدثة" value={batch.counts.rowsUpdated} />
+        <MetricCard label="صفوف مستوردة" value={batch.counts.rowsImported} valueClassName="text-[#006767]" />
+        <MetricCard label="صفوف محدثة" value={batch.counts.rowsUpdated} valueClassName="text-[#0b57d0]" />
         <MetricCard label="صفوف متخطاة" value={batch.counts.rowsSkipped} />
         <MetricCard label="عدد المشكلات" value={batch.counts.issueCount} />
       </div>
@@ -165,11 +165,19 @@ export function ImportBatchSummary({ batch, canManage }: ImportBatchSummaryProps
   );
 }
 
-function MetricCard({ label, value }: { label: string; value: number }) {
+function MetricCard({
+  label,
+  value,
+  valueClassName,
+}: {
+  label: string;
+  value: number;
+  valueClassName?: string;
+}) {
   return (
     <div className="rounded-xl bg-surface-container-low p-4">
       <div className="text-label-lg text-on-surface-variant">{label}</div>
-      <div className="mt-2 font-display text-headline-sm text-on-surface">{formatInteger(value)}</div>
+      <div className={"mt-2 font-display text-headline-sm " + (valueClassName ?? "text-on-surface")}>{formatInteger(value)}</div>
     </div>
   );
 }

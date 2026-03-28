@@ -1,4 +1,5 @@
 import { InstallmentsTable } from "@/components/installments/installments-table";
+import { DateRangeInputs } from "@/components/ui/date-range-inputs";
 import { ExportButton } from "@/components/ui/export-button";
 import { QueryPagination } from "@/components/ui/query-pagination";
 import { FilterBar } from "@/components/ui/filter-bar";
@@ -11,11 +12,13 @@ export const dynamic = "force-dynamic";
 
 type InstallmentsPageProps = {
   searchParams?: Promise<{
+    endDate?: string;
     page?: string;
     pageSize?: string;
     paymentStatus?: string;
     projectId?: string;
     search?: string;
+    startDate?: string;
   }>;
 };
 
@@ -26,12 +29,14 @@ export default async function InstallmentsPage({ searchParams }: InstallmentsPag
     (assignment) => assignment.role === "admin" || assignment.role === "manager",
   );
   const result = await getInstallmentsList({
+    endDate: filters.endDate,
     page: coercePositiveNumber(filters.page, 1),
     pageSize: coercePositiveNumber(filters.pageSize, 50),
     paymentStatus: filters.paymentStatus,
     projectId: filters.projectId,
     search: filters.search,
     sessionUser,
+    startDate: filters.startDate,
   });
 
   return (
@@ -77,6 +82,7 @@ export default async function InstallmentsPage({ searchParams }: InstallmentsPag
             <option value="partial">جزئي</option>
             <option value="paid">مدفوع</option>
           </select>
+          <DateRangeInputs endDateValue={filters.endDate ?? null} startDateValue={filters.startDate ?? null} />
           <button className="gradient-primary rounded-xl px-4 py-3 text-body-md font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:opacity-90" type="submit">
             تطبيق
           </button>

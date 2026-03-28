@@ -150,6 +150,63 @@ export type Database = {
           },
         ]
       }
+      contract_documents: {
+        Row: {
+          content_type: string
+          contract_id: string
+          created_at: string
+          document_type: string
+          file_name: string
+          file_size_bytes: number
+          id: string
+          notes: string | null
+          storage_path: string
+          updated_at: string
+          uploaded_by: string
+        }
+        Insert: {
+          content_type?: string
+          contract_id: string
+          created_at?: string
+          document_type?: string
+          file_name: string
+          file_size_bytes: number
+          id?: string
+          notes?: string | null
+          storage_path: string
+          updated_at?: string
+          uploaded_by: string
+        }
+        Update: {
+          content_type?: string
+          contract_id?: string
+          created_at?: string
+          document_type?: string
+          file_name?: string
+          file_size_bytes?: number
+          id?: string
+          notes?: string | null
+          storage_path?: string
+          updated_at?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_documents_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contract_documents_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customer_project_identities: {
         Row: {
           created_at: string

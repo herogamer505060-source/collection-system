@@ -92,6 +92,11 @@ export const EXPORT_COLUMNS: Record<ExportType, ExportColumn[]> = {
     { header: "المتبقي", key: "amountOutstanding", width: 18 },
     { header: "أيام التأخير", key: "delayDays", width: 16 },
     { header: "تاريخ الاستحقاق", key: "dueDate", width: 18 },
+    { header: "آخر متابعة", key: "lastFollowUpDate", width: 22 },
+    { header: "ملاحظة المتابعة", key: "lastFollowUpNote", width: 40 },
+    { header: "رد العميل", key: "lastCustomerResponse", width: 30 },
+    { header: "تاريخ الوعد", key: "promiseDate", width: 18 },
+    { header: "الإجراء القادم", key: "nextActionDate", width: 18 },
   ],
   penalties: [
     { header: "العميل", key: "customerName", width: 30 },

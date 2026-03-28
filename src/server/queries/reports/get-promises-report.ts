@@ -20,6 +20,17 @@ export async function getPromisesReport(input: ReportQueryInput): Promise<Promis
   const context = await getReportContext(input);
   const items = context.accessibleFollowUps
     .filter((followUp) => followUp.promised_to_pay && followUp.follow_up_status !== "done")
+    .filter((followUp) => {
+      if (input.startDate && (!followUp.promise_date || followUp.promise_date < input.startDate)) {
+        return false;
+      }
+
+      if (input.endDate && (!followUp.promise_date || followUp.promise_date > input.endDate)) {
+        return false;
+      }
+
+      return true;
+    })
     .map((followUp) => ({
       collectorName: followUp.collector_user_id
         ? context.profileById.get(followUp.collector_user_id)?.full_name ?? followUp.collector_user_id
