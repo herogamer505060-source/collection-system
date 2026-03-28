@@ -163,8 +163,7 @@
   }
 
   tr,
-  img,
-  section {
+  img {
     break-inside: avoid;
     page-break-inside: avoid;
   }
