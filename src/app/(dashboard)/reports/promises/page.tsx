@@ -51,7 +51,7 @@ export default async function PromisesReportPage({ searchParams }: PromisesRepor
           <>
             <StatusBadge variant="warning">{result.totalCount} وعد</StatusBadge>
             <ExportButton exportType="promises" filters={filters} />
-            <PrintButton />
+            <PrintButton exportType="promises" filters={filters} />
           </>
         }
         description="سجل العملاء الذين لديهم وعد سداد مفتوح أو لم يتم إغلاق متابعتهم بعد."

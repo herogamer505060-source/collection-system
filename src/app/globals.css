@@ -158,6 +158,17 @@
     width: 100% !important;
   }
 
+  thead {
+    display: table-header-group;
+  }
+
+  tr,
+  img,
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   th,
   td {
     padding: 4px 8px !important;

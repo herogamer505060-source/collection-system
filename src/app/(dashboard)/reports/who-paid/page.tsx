@@ -48,7 +48,7 @@ export default async function WhoPaidReportPage({ searchParams }: WhoPaidReportP
           <>
             <StatusBadge variant="info">{result.totalCount} عميل</StatusBadge>
             <ExportButton exportType="who-paid" filters={filters} />
-            <PrintButton />
+            <PrintButton exportType="who-paid" filters={filters} />
           </>
         }
         description="عرض موقف كل عميل من السداد حسب المشروع المختار وإجماليات الأقساط المرتبطة به."

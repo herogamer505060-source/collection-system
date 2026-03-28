@@ -48,7 +48,7 @@ export default async function CollectionNotesReportPage({ searchParams }: Collec
           <>
             <StatusBadge variant="info">{result.totalCount} سجل</StatusBadge>
             <ExportButton exportType="collection-notes" filters={filters} />
-            <PrintButton />
+            <PrintButton exportType="collection-notes" filters={filters} />
           </>
         }
         description="آخر ملاحظة متابعة متاحة لكل عميل ضمن النطاق الحالي مع اسم المحصل ورد العميل إن وجد."

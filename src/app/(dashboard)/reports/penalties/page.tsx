@@ -46,7 +46,7 @@ export default async function PenaltiesReportPage({ searchParams }: PenaltiesRep
           <>
             <StatusBadge variant="warning">{result.totalCount} قسط</StatusBadge>
             <ExportButton exportType="penalties" filters={filters} />
-            <PrintButton />
+            <PrintButton exportType="penalties" filters={filters} />
           </>
         }
         description="تفاصيل الأقساط التي تحمل غرامات مسجلة مع المبالغ الأصلية والمتبقية لكل عميل."

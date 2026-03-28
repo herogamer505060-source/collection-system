@@ -48,7 +48,7 @@ export default async function ProjectStatusReportPage({ searchParams }: ProjectS
           <>
             <StatusBadge variant="info">{result.totalCount} مشروع</StatusBadge>
             <ExportButton exportType="project-status" filters={filters} />
-            <PrintButton />
+            <PrintButton exportType="project-status" filters={filters} />
           </>
         }
         description="ملخص إجمالي التحصيل والمتأخرات ونسبة الإنجاز على مستوى كل مشروع ظاهر للمستخدم."

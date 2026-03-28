@@ -69,7 +69,7 @@ export default async function OverdueReportPage({ searchParams }: OverdueReportP
           <>
             <StatusBadge variant="danger">{result.totalCount} قسط متأخر</StatusBadge>
             <ExportButton exportType="overdue" filters={filters} />
-            <PrintButton />
+            <PrintButton exportType="overdue" filters={filters} />
           </>
         }
         description="قائمة تفصيلية بالأقساط التي تجاوزت تاريخ الاستحقاق وما زال عليها رصيد قائم."

@@ -45,7 +45,7 @@ export default async function NoFollowUpReportPage({ searchParams }: NoFollowUpR
           <>
             <StatusBadge variant="info">{result.totalCount} عميل</StatusBadge>
             <ExportButton exportType="no-follow-up" filters={filters} />
-            <PrintButton />
+            <PrintButton exportType="no-follow-up" filters={filters} />
           </>
         }
         description="العملاء الذين لم تسجل لهم أي متابعة خلال عدد الأيام المحدد ضمن المشروع المختار."

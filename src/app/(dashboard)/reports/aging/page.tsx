@@ -68,7 +68,7 @@ export default async function AgingReportPage({ searchParams }: AgingReportPageP
           <>
             <StatusBadge variant="info">{result.totalCount} صف</StatusBadge>
             <ExportButton exportType="aging" filters={filters} />
-            <PrintButton />
+            <PrintButton exportType="aging" filters={filters} />
           </>
         }
         description="توزيع الأقساط التي ما زال عليها رصيد حسب فئة التأخير والمشروع مع آخر متابعة مرتبطة بالعميل."

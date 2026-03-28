@@ -3,15 +3,26 @@
 import { useState } from "react";
 
 import type { ExportType } from "@/features/exports/column-definitions";
+import { generateReportPdf } from "@/features/exports/generate-report-pdf";
 
 type ExportButtonProps = {
   exportType: ExportType;
   filters?: Record<string, string | undefined>;
 };
 
+type ExportDataResponse = {
+  columns: Array<{ header: string; key: string; width?: number }>;
+  fileNameBase: string;
+  filterSummary: Array<{ label: string; value: string }>;
+  generatedAt: string;
+  rows: Record<string, unknown>[];
+  title: string;
+  type: ExportType;
+};
+
 export function ExportButton({ exportType, filters }: ExportButtonProps) {
   const [error, setError] = useState<string | null>(null);
-  const [loadingFormat, setLoadingFormat] = useState<"csv" | "xlsx" | null>(null);
+  const [loadingFormat, setLoadingFormat] = useState<"csv" | "pdf" | "xlsx" | null>(null);
 
   async function handleExport(format: "csv" | "xlsx") {
     try {
@@ -49,9 +60,45 @@ export function ExportButton({ exportType, filters }: ExportButtonProps) {
     }
   }
 
+  async function handlePdfExport() {
+    try {
+      setError(null);
+      setLoadingFormat("pdf");
+
+      const response = await fetch("/api/export/data", {
+        body: JSON.stringify({
+          filters: sanitizeFilters(filters),
+          type: exportType,
+        }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        throw new Error(payload?.error?.message ?? "تعذر تجهيز ملف PDF");
+      }
+
+      const dataset = (await response.json()) as ExportDataResponse;
+      await generateReportPdf(dataset);
+    } catch (exportError) {
+      setError(exportError instanceof Error ? exportError.message : "حدث خطأ غير متوقع أثناء إنشاء PDF");
+    } finally {
+      setLoadingFormat(null);
+    }
+  }
+
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap gap-2">
+        <button
+          className="rounded-xl bg-surface-container-high px-4 py-2 text-label-lg font-semibold text-on-surface transition-all hover:bg-surface-container-highest disabled:opacity-60"
+          disabled={loadingFormat !== null}
+          onClick={() => void handlePdfExport()}
+          type="button"
+        >
+          {loadingFormat === "pdf" ? "جاري تجهيز PDF..." : "PDF احترافي"}
+        </button>
         <button
           className="rounded-xl bg-surface-container-high px-4 py-2 text-label-lg font-semibold text-on-surface transition-all hover:bg-surface-container-highest disabled:opacity-60"
           disabled={loadingFormat !== null}
