@@ -18,6 +18,7 @@ export default async function CustomerProfilePage({ params }: CustomerProfilePag
   const canEditCustomer = sessionUser.roles.some(
     (assignment) => assignment.role === "admin" || assignment.role === "manager",
   );
+  const canSendWhatsApp = sessionUser.roles.some((assignment) => ["admin", "manager", "collector"].includes(assignment.role));
 
   if (!profile) {
     notFound();
@@ -29,6 +30,7 @@ export default async function CustomerProfilePage({ params }: CustomerProfilePag
       canManageFollowUps={
         hasPermission(sessionUser, "followUps.manageAny") || hasPermission(sessionUser, "followUps.manageOwn")
       }
+      canSendWhatsApp={canSendWhatsApp}
       defaultCollectorUserId={sessionUser.id}
       profile={profile}
     />

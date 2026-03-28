@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { CustomerEditForm } from "@/components/customers/customer-edit-form";
 import { CustomerFollowUpHistory } from "@/components/customers/customer-follow-up-history";
+import { WhatsAppManualSendForm } from "@/components/whatsapp/whatsapp-manual-send-form";
 import { ContractsTable } from "@/components/contracts/contracts-table";
 import { InstallmentsTable } from "@/components/installments/installments-table";
 import { formatCurrency } from "@/lib/formatting/currency";
@@ -13,6 +14,7 @@ import type { CustomerProfileResult } from "@/server/queries/customers/get-custo
 type CustomerProfileOverviewProps = {
   canEditCustomer: boolean;
   canManageFollowUps: boolean;
+  canSendWhatsApp: boolean;
   defaultCollectorUserId?: string | null;
   profile: CustomerProfileResult;
 };
@@ -20,6 +22,7 @@ type CustomerProfileOverviewProps = {
 export function CustomerProfileOverview({
   canEditCustomer,
   canManageFollowUps,
+  canSendWhatsApp,
   defaultCollectorUserId,
   profile,
 }: CustomerProfileOverviewProps) {
@@ -47,6 +50,20 @@ export function CustomerProfileOverview({
               >
                 تعديل بيانات العميل
               </button>
+            ) : null}
+            {canSendWhatsApp ? (
+              <WhatsAppManualSendForm
+                contractOptions={profile.contracts.map((contract) => ({
+                  id: contract.contractId,
+                  label: `${contract.contractCode ?? contract.contractId.slice(0, 8)} - ${contract.projectName}`,
+                }))}
+                customerId={profile.customer.customerId}
+                customerName={profile.customer.customerName}
+                projectOptions={profile.contracts.map((contract) => ({
+                  id: contract.projectId,
+                  label: contract.projectName,
+                })).filter((option, index, array) => array.findIndex((entry) => entry.id === option.id) === index)}
+              />
             ) : null}
             <div className="rounded-xl bg-surface-container-low px-4 py-3 text-body-md text-on-surface-variant">
               <div className="font-semibold text-on-surface">الاسم المعياري</div>
