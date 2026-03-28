@@ -1,4 +1,4 @@
-import type { ReportQueryInput, PaginatedReportResult } from "./report-helpers";
+import type { PaginatedReportResult, ReportQueryInput } from "./report-helpers";
 import {
   AGING_BUCKET_LABELS,
   AGING_BUCKET_ORDER,
@@ -14,6 +14,10 @@ export type AgingReportItem = {
   customerName: string;
   delayBucket: string;
   delayDays: number;
+  dueDate: string;
+  lastCustomerResponse: string | null;
+  lastFollowUpDate: string | null;
+  lastFollowUpNote: string | null;
   projectName: string;
 };
 
@@ -35,6 +39,12 @@ export async function getAgingReport(input: ReportQueryInput): Promise<AgingRepo
     .filter((installment) => installment.amount_outstanding > 0)
     .map((installment) => {
       const contract = context.contractById.get(installment.contract_id);
+      const customerId = contract?.customer_id;
+      const latestFollowUp = customerId
+        ? [...(context.followUpsByCustomer.get(customerId) ?? [])].sort((left, right) =>
+            right.follow_up_date.localeCompare(left.follow_up_date),
+          )[0] ?? null
+        : null;
       const customerName = contract
         ? context.customerById.get(contract.customer_id)?.customer_name ?? contract.customer_id
         : "—";
@@ -58,6 +68,10 @@ export async function getAgingReport(input: ReportQueryInput): Promise<AgingRepo
         customerName,
         delayBucket: AGING_BUCKET_LABELS[bucket] ?? bucket,
         delayDays: installment.delay_days,
+        dueDate: installment.due_date,
+        lastCustomerResponse: latestFollowUp?.customer_response ?? null,
+        lastFollowUpDate: latestFollowUp?.follow_up_date ?? null,
+        lastFollowUpNote: latestFollowUp?.note ?? null,
         projectName,
       };
     })

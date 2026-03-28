@@ -201,7 +201,13 @@ async function loadExportRows(
         sessionUser,
         startDate: filters.startDate,
       });
-      return result.items;
+      return result.items.map((row) => ({
+        ...row,
+        dueDate: formatDate(row.dueDate),
+        lastCustomerResponse: row.lastCustomerResponse ?? "",
+        lastFollowUpDate: formatDateTime(row.lastFollowUpDate),
+        lastFollowUpNote: row.lastFollowUpNote ?? "",
+      }));
     }
     case "who-paid": {
       const result = await getWhoPaidReport({

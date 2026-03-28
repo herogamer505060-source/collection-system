@@ -7,6 +7,7 @@ import { QueryPagination } from "@/components/ui/query-pagination";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { getRequiredSessionUser } from "@/lib/auth/get-session-user";
 import { requirePermission } from "@/lib/auth/permissions";
+import { formatEgyptDateTime, toEgyptDateString } from "@/lib/dates/egypt";
 import { formatCurrency } from "@/lib/formatting/currency";
 import { getAgingReport, type AgingReportItem } from "@/server/queries/reports/get-aging-report";
 
@@ -20,10 +21,31 @@ const columns: DataTableColumn<AgingReportItem>[] = [
   { cell: (row) => row.customerName, header: "العميل" },
   { cell: (row) => row.contractCode ?? "—", header: "العقد" },
   { cell: (row) => row.projectName, header: "المشروع" },
+  { cell: (row) => formatDate(row.dueDate), header: "تاريخ الاستحقاق" },
   { cell: (row) => formatCurrency(row.amountDue), header: "المستحق" },
   { cell: (row) => formatCurrency(row.amountOutstanding), header: "المتبقي" },
   { cell: (row) => `${row.delayDays} يوم`, header: "أيام التأخير" },
   { cell: (row) => row.delayBucket, header: "فئة التأخير" },
+  {
+    cell: (row) => (row.lastFollowUpDate ? formatEgyptDateTime(row.lastFollowUpDate) : "—"),
+    header: "آخر متابعة",
+  },
+  {
+    cell: (row) => (
+      <div className="max-w-xs whitespace-pre-wrap text-body-md leading-6 text-on-surface line-clamp-2">
+        {row.lastFollowUpNote ?? "—"}
+      </div>
+    ),
+    header: "ملاحظة المتابعة",
+  },
+  {
+    cell: (row) => (
+      <div className="max-w-xs whitespace-pre-wrap text-body-md leading-6 text-on-surface line-clamp-2">
+        {row.lastCustomerResponse ?? "—"}
+      </div>
+    ),
+    header: "رد العميل",
+  },
 ];
 
 export default async function AgingReportPage({ searchParams }: AgingReportPageProps) {
@@ -49,7 +71,7 @@ export default async function AgingReportPage({ searchParams }: AgingReportPageP
             <PrintButton />
           </>
         }
-        description="توزيع الأقساط التي ما زال عليها رصيد حسب فئة التأخير والمشروع."
+        description="توزيع الأقساط التي ما زال عليها رصيد حسب فئة التأخير والمشروع مع آخر متابعة مرتبطة بالعميل."
         title="أعمار المديونية"
       >
         <form action="/reports/aging" className="flex w-full flex-wrap gap-3">
@@ -98,4 +120,8 @@ export default async function AgingReportPage({ searchParams }: AgingReportPageP
 function coercePositiveNumber(value: string | undefined, fallback: number): number {
   const numericValue = Number(value);
   return Number.isFinite(numericValue) && numericValue > 0 ? Math.floor(numericValue) : fallback;
+}
+
+function formatDate(value: string | null): string {
+  return value ? toEgyptDateString(value) : "—";
 }
