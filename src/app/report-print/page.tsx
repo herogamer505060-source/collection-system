@@ -3,6 +3,11 @@ import { notFound } from "next/navigation";
 import { AutoPrintOnLoad } from "@/components/ui/auto-print-on-load";
 import { PrintPageActions } from "@/components/ui/print-page-actions";
 import { EXPORT_TYPES, type ExportType } from "@/features/exports/column-definitions";
+import {
+  formatNumericTotal,
+  getNumericColumnTotals,
+  hasAnyNumericTotals,
+} from "@/features/exports/report-table-totals";
 import { getRequiredSessionUser } from "@/lib/auth/get-session-user";
 import { requirePermission } from "@/lib/auth/permissions";
 import { getExportDataset } from "@/server/queries/exports/get-export-dataset";
@@ -26,6 +31,8 @@ export default async function ReportPrintPage({ searchParams }: ReportPrintPageP
   const filters = sanitizeFilters(params);
   const dataset = await getExportDataset({ filters, sessionUser, type });
   const autoPrint = readSearchParam(params, "autoprint") === "1";
+  const totals = getNumericColumnTotals(dataset.columns, dataset.rows);
+  const hasTotals = hasAnyNumericTotals(totals);
 
   return (
     <main className="min-h-screen bg-white px-6 py-8 font-sans tracking-normal text-slate-950 [word-spacing:0]">
@@ -80,6 +87,17 @@ export default async function ReportPrintPage({ searchParams }: ReportPrintPageP
                 </tr>
               )}
             </tbody>
+            {hasTotals ? (
+              <tfoot>
+                <tr className="bg-slate-100/90">
+                  {dataset.columns.map((column, index) => (
+                    <td className="border border-slate-300 px-3 py-2 text-center font-sans font-semibold leading-7 tracking-normal text-slate-900" key={column.key}>
+                      {index === 0 ? "الإجمالي" : formatNumericTotal(totals[column.key] ?? null)}
+                    </td>
+                  ))}
+                </tr>
+              </tfoot>
+            ) : null}
           </table>
         </div>
       </section>

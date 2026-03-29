@@ -1,4 +1,9 @@
 import type { ExportColumn, ExportType } from "@/features/exports/column-definitions";
+import {
+  formatNumericTotal,
+  getNumericColumnTotals,
+  hasAnyNumericTotals,
+} from "@/features/exports/report-table-totals";
 
 type ReportPdfDataset = {
   columns: ExportColumn[];
@@ -14,10 +19,12 @@ type PageShellInput = {
   columns: ExportColumn[];
   filterSummary: Array<{ label: string; value: string }>;
   generatedAt: string;
+  isLastPage: boolean;
   pageNumber: number;
   title: string;
   totalPages: number;
   totalRows: number;
+  totals: Record<string, number | null>;
 };
 
 const PAGE_HEIGHT = 794;
@@ -57,7 +64,8 @@ export async function generateReportPdf(dataset: ReportPdfDataset): Promise<void
 
     await waitForNextPaint();
 
-    const rowChunks = dataset.rows.length > 0 ? measureRowChunks(dataset, mount) : [[]];
+    const totals = getNumericColumnTotals(dataset.columns, dataset.rows);
+    const rowChunks = dataset.rows.length > 0 ? measureRowChunks(dataset, mount, totals) : [[]];
     const totalPages = Math.max(rowChunks.length, 1);
 
     mount.replaceChildren();
@@ -69,10 +77,12 @@ export async function generateReportPdf(dataset: ReportPdfDataset): Promise<void
             columns: dataset.columns,
             filterSummary: dataset.filterSummary,
             generatedAt: dataset.generatedAt,
+            isLastPage: index === totalPages - 1,
             pageNumber: index + 1,
             title: dataset.title,
             totalPages,
             totalRows: dataset.rows.length,
+            totals,
           },
           rows,
         ),
@@ -86,10 +96,12 @@ export async function generateReportPdf(dataset: ReportPdfDataset): Promise<void
             columns: dataset.columns,
             filterSummary: dataset.filterSummary,
             generatedAt: dataset.generatedAt,
+            isLastPage: true,
             pageNumber: 1,
             title: dataset.title,
             totalPages: 1,
             totalRows: 0,
+            totals,
           },
           [],
         ),
@@ -129,15 +141,21 @@ export async function generateReportPdf(dataset: ReportPdfDataset): Promise<void
   }
 }
 
-function measureRowChunks(dataset: ReportPdfDataset, mount: HTMLElement): Record<string, unknown>[][] {
+function measureRowChunks(
+  dataset: ReportPdfDataset,
+  mount: HTMLElement,
+  totals: Record<string, number | null>,
+): Record<string, unknown>[][] {
   const measurement = buildPageShell({
     columns: dataset.columns,
     filterSummary: dataset.filterSummary,
     generatedAt: dataset.generatedAt,
+    isLastPage: false,
     pageNumber: 1,
     title: dataset.title,
     totalPages: 1,
     totalRows: dataset.rows.length,
+    totals,
   });
 
   measurement.page.style.visibility = "hidden";
@@ -150,7 +168,7 @@ function measureRowChunks(dataset: ReportPdfDataset, mount: HTMLElement): Record
     const rowElement = createRowElement(row, dataset.columns, currentChunk.length);
     measurement.tbody.appendChild(rowElement);
 
-    if (measurement.page.scrollHeight > PAGE_HEIGHT && currentChunk.length > 0) {
+    if (measurement.tableWrap.scrollHeight > measurement.tableWrap.clientHeight && currentChunk.length > 0) {
       measurement.tbody.removeChild(rowElement);
       chunks.push(currentChunk);
       currentChunk = [];
@@ -163,6 +181,24 @@ function measureRowChunks(dataset: ReportPdfDataset, mount: HTMLElement): Record
 
   if (currentChunk.length > 0) {
     chunks.push(currentChunk);
+  }
+
+  if (hasAnyNumericTotals(totals) && chunks.length > 0) {
+    const lastChunk = [...(chunks[chunks.length - 1] ?? [])];
+    measurement.tbody.replaceChildren();
+    lastChunk.forEach((row, rowIndex) => {
+      measurement.tbody.appendChild(createRowElement(row, dataset.columns, rowIndex));
+    });
+    measurement.tbody.appendChild(createTotalsRow(dataset.columns, totals));
+
+    if (measurement.tableWrap.scrollHeight > measurement.tableWrap.clientHeight && lastChunk.length > 0) {
+      const overflowRow = lastChunk.pop();
+
+      if (overflowRow) {
+        chunks[chunks.length - 1] = lastChunk;
+        chunks.push([overflowRow]);
+      }
+    }
   }
 
   measurement.page.remove();
@@ -192,6 +228,10 @@ function buildPageElement(input: PageShellInput, rows: Record<string, unknown>[]
     shell.tbody.appendChild(tr);
   }
 
+  if (input.isLastPage && hasAnyNumericTotals(input.totals)) {
+    shell.tbody.appendChild(createTotalsRow(input.columns, input.totals));
+  }
+
   return shell.page;
 }
 
@@ -203,7 +243,7 @@ function buildPageShell(input: PageShellInput) {
     display: "flex",
     flexDirection: "column",
     fontFamily: ARABIC_FONT_STACK,
-    gap: "12px",
+    gap: "10px",
     height: `${PAGE_HEIGHT}px`,
     overflow: "hidden",
     padding: `${PAGE_PADDING}px`,
@@ -214,7 +254,7 @@ function buildPageShell(input: PageShellInput) {
   const header = createElement("div", {
     display: "flex",
     flexDirection: "column",
-    gap: "8px",
+    gap: "6px",
   });
   const headerTop = createElement("div", {
     alignItems: "flex-start",
@@ -230,7 +270,7 @@ function buildPageShell(input: PageShellInput) {
   const title = createTextElement("h1", input.title, {
     color: "#0f172a",
     fontFamily: ARABIC_FONT_STACK,
-    fontSize: "24px",
+    fontSize: "22px",
     fontWeight: "700",
     letterSpacing: "0",
     lineHeight: "1.45",
@@ -243,7 +283,7 @@ function buildPageShell(input: PageShellInput) {
     {
       color: "#475569",
       fontFamily: ARABIC_FONT_STACK,
-      fontSize: "13px",
+      fontSize: "12px",
       letterSpacing: "0",
       lineHeight: "1.5",
       margin: "0",
@@ -253,7 +293,7 @@ function buildPageShell(input: PageShellInput) {
     color: "#475569",
     direction: "rtl",
     fontFamily: ARABIC_FONT_STACK,
-    fontSize: "13px",
+      fontSize: "12px",
     letterSpacing: "0",
     lineHeight: "1.5",
     margin: "0",
@@ -281,9 +321,9 @@ function buildPageShell(input: PageShellInput) {
         direction: "rtl",
         display: "inline-flex",
         fontFamily: ARABIC_FONT_STACK,
-        fontSize: "12px",
+        fontSize: "11px",
         gap: "4px",
-        padding: "5px 10px",
+        padding: "4px 9px",
       });
       const label = createTextElement("span", `${entry.label}:`, { fontWeight: "700" });
       const value = createTextElement("span", entry.value, {});
@@ -320,8 +360,8 @@ function buildPageShell(input: PageShellInput) {
       fontSize: `${TABLE_FONT_SIZE}px`,
       fontWeight: "700",
       letterSpacing: "0",
-      lineHeight: "1.55",
-      padding: "8px 7px",
+      lineHeight: "1.45",
+      padding: "7px 6px",
       textAlign: "right",
       verticalAlign: "top",
       whiteSpace: "normal",
@@ -349,7 +389,35 @@ function buildPageShell(input: PageShellInput) {
   });
 
   page.append(header, tableWrap, footer);
-  return { page, tbody };
+  return { page, tableWrap, tbody };
+}
+
+function createTotalsRow(
+  columns: ExportColumn[],
+  totals: Record<string, number | null>,
+): HTMLTableRowElement {
+  const tr = document.createElement("tr");
+  tr.style.background = "#edf4f3";
+
+  columns.forEach((column, index) => {
+    const text = index === 0 ? "الإجمالي" : formatNumericTotal(totals[column.key] ?? null);
+    const cell = createTextElement("td", text, {
+      borderBottom: "1px solid #dbe4e3",
+      color: index === 0 ? "#0f172a" : "#14383b",
+      direction: "rtl",
+      fontFamily: ARABIC_FONT_STACK,
+      fontSize: `${TABLE_FONT_SIZE}px`,
+      fontWeight: "700",
+      letterSpacing: "0",
+      lineHeight: "1.45",
+      padding: "7px 6px",
+      textAlign: index === 0 ? "right" : "center",
+      verticalAlign: "top",
+    });
+    tr.appendChild(cell);
+  });
+
+  return tr;
 }
 
 function createRowElement(
@@ -368,8 +436,8 @@ function createRowElement(
       fontFamily: ARABIC_FONT_STACK,
       fontSize: `${TABLE_FONT_SIZE}px`,
       letterSpacing: "0",
-      lineHeight: "1.65",
-      padding: "8px 7px",
+      lineHeight: "1.5",
+      padding: "6px 6px",
       textAlign: "right",
       verticalAlign: "top",
       whiteSpace: "normal",
