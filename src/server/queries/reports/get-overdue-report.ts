@@ -2,6 +2,7 @@ import type { PaginatedReportResult, ReportQueryInput } from "./report-helpers";
 import { buildPaginatedReportResult, getProjectName, getReportContext } from "./report-helpers";
 
 export type OverdueReportItem = {
+  amountCollected: number;
   amountDue: number;
   amountOutstanding: number;
   contractCode: string | null;
@@ -33,6 +34,7 @@ export async function getOverdueReport(input: ReportQueryInput): Promise<Overdue
         : null;
 
       return {
+        amountCollected: installment.amount_collected,
         amountDue: installment.amount_due,
         amountOutstanding: installment.amount_outstanding,
         contractCode: contract?.contract_code ?? null,

@@ -29,6 +29,7 @@ const columns: DataTableColumn<OverdueReportItem>[] = [
   { cell: (row) => row.projectName, header: "المشروع" },
   { cell: (row) => row.installmentType, header: "نوع القسط" },
   { cell: (row) => formatCurrency(row.amountDue), header: "المستحق" },
+  { cell: (row) => formatCurrency(row.amountCollected), header: "المحصل" },
   { cell: (row) => formatCurrency(row.amountOutstanding), header: "المتبقي" },
   { cell: (row) => `${row.delayDays} يوم`, header: "أيام التأخير" },
   { cell: (row) => formatDate(row.dueDate), header: "تاريخ الاستحقاق" },

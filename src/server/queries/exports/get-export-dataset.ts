@@ -184,6 +184,7 @@ export async function loadExportRows(
       });
       return result.items.map((row) => ({
         ...row,
+        amountCollected: row.amountCollected,
         dueDate: formatDate(row.dueDate),
         lastCustomerResponse: row.lastCustomerResponse ?? "",
         lastFollowUpDate: formatDateTime(row.lastFollowUpDate),
@@ -212,6 +213,7 @@ export async function loadExportRows(
       });
       return result.items.map((row) => ({
         ...row,
+        amountCollected: row.amountCollected,
         dueDate: formatDate(row.dueDate),
         lastCustomerResponse: row.lastCustomerResponse ?? "",
         lastFollowUpDate: formatDateTime(row.lastFollowUpDate),
@@ -229,7 +231,10 @@ export async function loadExportRows(
         sessionUser,
         startDate: filters.startDate,
       });
-      return result.items;
+      return result.items.map((row) => ({
+        ...row,
+        amountCollected: row.amountCollected,
+      }));
    
     }
     case "project-status": {

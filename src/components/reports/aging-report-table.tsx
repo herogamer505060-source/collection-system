@@ -72,6 +72,7 @@ function buildColumns(input: {
     { cell: (row) => row.projectName, header: "المشروع" },
     { cell: (row) => formatDate(row.dueDate), header: "تاريخ الاستحقاق" },
     { cell: (row) => formatCurrency(row.amountDue), header: "المستحق" },
+    { cell: (row) => formatCurrency(row.amountCollected), header: "المحصل" },
     { cell: (row) => formatCurrency(row.amountOutstanding), header: "المتبقي" },
     { cell: (row) => `${row.delayDays} يوم`, header: "أيام التأخير" },
     { cell: (row) => row.delayBucket, header: "فئة التأخير" },

@@ -72,6 +72,7 @@ export const EXPORT_COLUMNS: Record<ExportType, ExportColumn[]> = {
     { header: "المشروع", key: "projectName", width: 22 },
     { header: "تاريخ الاستحقاق", key: "dueDate", width: 18 },
     { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المحصل", key: "amountCollected", width: 18 },
     { header: "المتبقي", key: "amountOutstanding", width: 18 },
     { header: "أيام التأخير", key: "delayDays", width: 16 },
     { header: "فئة التأخير", key: "delayBucket", width: 18 },
@@ -93,6 +94,7 @@ export const EXPORT_COLUMNS: Record<ExportType, ExportColumn[]> = {
     { header: "المشروع", key: "projectName", width: 22 },
     { header: "نوع القسط", key: "installmentType", width: 18 },
     { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المحصل", key: "amountCollected", width: 18 },
     { header: "المتبقي", key: "amountOutstanding", width: 18 },
     { header: "أيام التأخير", key: "delayDays", width: 16 },
     { header: "تاريخ الاستحقاق", key: "dueDate", width: 18 },
@@ -109,6 +111,7 @@ export const EXPORT_COLUMNS: Record<ExportType, ExportColumn[]> = {
     { header: "نوع القسط", key: "installmentType", width: 18 },
     { header: "الغرامة", key: "penaltyAmount", width: 16 },
     { header: "المستحق", key: "amountDue", width: 18 },
+    { header: "المحصل", key: "amountCollected", width: 18 },
     { header: "المتبقي", key: "amountOutstanding", width: 18 },
   ],
   "project-status": [

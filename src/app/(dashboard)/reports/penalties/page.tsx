@@ -23,6 +23,7 @@ const columns: DataTableColumn<PenaltiesReportItem>[] = [
   { cell: (row) => row.installmentType, header: "نوع القسط" },
   { cell: (row) => formatCurrency(row.penaltyAmount), header: "الغرامة" },
   { cell: (row) => formatCurrency(row.amountDue), header: "المستحق" },
+  { cell: (row) => formatCurrency(row.amountCollected), header: "المحصل" },
   { cell: (row) => formatCurrency(row.amountOutstanding), header: "المتبقي" },
 ];
 

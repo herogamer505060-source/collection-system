@@ -8,6 +8,7 @@ import {
 } from "./report-helpers";
 
 export type AgingReportItem = {
+  amountCollected: number;
   amountDue: number;
   amountOutstanding: number;
   collectorUserId: string | null;
@@ -65,6 +66,7 @@ export async function getAgingReport(input: ReportQueryInput): Promise<AgingRepo
       summaryMap.set(bucket, summaryItem);
 
       return {
+        amountCollected: installment.amount_collected,
         amountDue: installment.amount_due,
         amountOutstanding: installment.amount_outstanding,
         collectorUserId: contract?.collector_user_id ?? null,

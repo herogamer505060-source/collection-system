@@ -2,6 +2,7 @@ import type { ReportQueryInput, PaginatedReportResult } from "./report-helpers";
 import { buildPaginatedReportResult, getProjectName, getReportContext } from "./report-helpers";
 
 export type PenaltiesReportItem = {
+  amountCollected: number;
   amountDue: number;
   amountOutstanding: number;
   contractCode: string | null;
@@ -20,6 +21,7 @@ export async function getPenaltiesReport(input: ReportQueryInput): Promise<Penal
     .map((installment) => {
       const contract = context.contractById.get(installment.contract_id);
       return {
+        amountCollected: installment.amount_collected,
         amountDue: installment.amount_due,
         amountOutstanding: installment.amount_outstanding,
         contractCode: contract?.contract_code ?? null,
